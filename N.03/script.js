@@ -23,7 +23,6 @@ const person = {
    patronymic: '',
    age: '',
    sex: true,
-   personSex: '',
    pensia: '',
    personName: function() {
       this.name = prompt('Введите Ваше имя', ''); 
@@ -45,7 +44,7 @@ const person = {
    },
    personAge: function() {
       this.age = +prompt('Введите Ваш возраст', ''); 
-      while (this.age == null || this.age == '' || isNaN(this.age)) {
+      while (this.age == null || isNaN(this.age)) {
          this.age = +prompt('Введите Ваш  возраст', ''); 
       }
    },
@@ -54,16 +53,16 @@ const person = {
    },
    personCheckPencia: function(age, sex) {
    if (age >= 61 && sex) {
-         this.personSex = 'мужской';
+         this.sex;
          this.pensia = 'да';
       } else if (age <= 61 && sex) {
-         this.personSex = 'мужской';
+         this.sex;
          this.pensia = 'нет';
       } else  if (age <= 55 && !sex) {
-         this.personSex = 'женский';
+         !this.sex;
          this.pensia = 'нет';
       } else if (age >= 55 && !sex) {
-         this.personSex = 'женский';
+         !this.sex;
          this.pensia = 'да';
       }
    },
@@ -72,7 +71,7 @@ const person = {
                         Ваш возраст в годах : ${this.age}
                         Ваш возраст в днях : ${this.age*365}
                         Через 5 лет Вам будет: ${this.age+5}
-                        Ваш пол : ${this.personSex}  
+                        Ваш пол : ${this.sex ? 'мужской':'женский'}  
                         Вы на пенсии: ${this.pensia}`;
    return  alert(anketa);
    } 

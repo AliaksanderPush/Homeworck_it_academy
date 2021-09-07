@@ -43,43 +43,39 @@ const person = {
       }
    },
    personAge: function() {
-      this.age = +prompt('Введите Ваш возраст', ''); 
-      while (this.age == null || isNaN(this.age)) {
-         this.age = +prompt('Введите Ваш  возраст', ''); 
+     this.age = prompt('Введите Ваш возраст', ''); 
+      while (this.age == null  ||  isNaN(this.age) || this.age < 0 || this.age > 100) {
+         this.age = prompt('Введите Ваш  возраст', ''); 
       }
    },
    personSex: function() {
-      this.sex = confirm('Ваш пол мужской?', '')
+      this.sex = confirm('Ваш пол мужской?','')
    },
    personCheckPencia: function(age, sex) {
    if (age >= 61 && sex) {
-         this.sex;
-         this.pensia = 'да';
+        this.pensia = 'да';
       } else if (age <= 61 && sex) {
-         this.sex;
-         this.pensia = 'нет';
+        this.pensia = 'нет';
       } else  if (age <= 55 && !sex) {
-         !this.sex;
-         this.pensia = 'нет';
+        this.pensia = 'нет';
       } else if (age >= 55 && !sex) {
-         !this.sex;
-         this.pensia = 'да';
+        this.pensia = 'да';
       }
    },
    personAnketa: function(name, surname, age, sex, status) {
       const anketa =   `ФИО : ${this.surname} ${this.name} ${this.patronymic}
                         Ваш возраст в годах : ${this.age}
-                        Ваш возраст в днях : ${this.age*365}
-                        Через 5 лет Вам будет: ${this.age+5}
+                        Ваш возраст в днях : ${+this.age * 365}
+                        Через 5 лет Вам будет: ${+this.age + 5}
                         Ваш пол : ${this.sex ? 'мужской':'женский'}  
                         Вы на пенсии: ${this.pensia}`;
    return  alert(anketa);
    } 
  
 }
-person.personName();
-person.personSurName();
-person.personPatronomic();
+//person.personName();
+//person.personSurName();
+//person.personPatronomic();
 person.personAge();
 person.personSex();
 person.personCheckPencia(person.age, person.sex);

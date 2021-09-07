@@ -44,9 +44,10 @@ const person = {
    },
    personAge: function() {
      this.age = prompt('Введите Ваш возраст', ''); 
-      while (this.age == null  ||  isNaN(this.age) || this.age < 0 || this.age > 100) {
+      while (this.age === null  ||  isNaN(this.age) || this.age < 0 || this.age > 100) {
          this.age = prompt('Введите Ваш  возраст', ''); 
       }
+     
    },
    personSex: function() {
       this.sex = confirm('Ваш пол мужской?','')
@@ -65,7 +66,7 @@ const person = {
    personAnketa: function(name, surname, age, sex, status) {
       const anketa =   `ФИО : ${this.surname} ${this.name} ${this.patronymic}
                         Ваш возраст в годах : ${this.age}
-                        Ваш возраст в днях : ${+this.age * 365}
+                        Ваш возраст в днях : ${this.age * 365}
                         Через 5 лет Вам будет: ${+this.age + 5}
                         Ваш пол : ${this.sex ? 'мужской':'женский'}  
                         Вы на пенсии: ${this.pensia}`;
@@ -73,9 +74,9 @@ const person = {
    } 
  
 }
-//person.personName();
-//person.personSurName();
-//person.personPatronomic();
+person.personName();
+person.personSurName();
+person.personPatronomic();
 person.personAge();
 person.personSex();
 person.personCheckPencia(person.age, person.sex);

@@ -44,7 +44,7 @@ const person = {
    },
    personAge: function() {
      this.age = prompt('Введите Ваш возраст', ''); 
-      while (this.age === null  ||  isNaN(this.age) || this.age < 0 || this.age > 100) {
+      while (this.age === null || this.age.length == 0 ||  isNaN(this.age) || this.age < 0 || this.age > 100) {
          this.age = prompt('Введите Ваш  возраст', ''); 
       }
      

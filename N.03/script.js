@@ -43,9 +43,9 @@ const person = {
       }
    },
    personAge: function() {
-     this.age = prompt('Введите Ваш возраст', ''); 
+     this.age = parseInt(prompt('Введите Ваш возраст', '')); 
       while (this.age === null || this.age.length == 0 ||  isNaN(this.age) || this.age < 0 || this.age > 100) {
-         this.age = prompt('Введите Ваш  возраст', ''); 
+         this.age = parseInt(prompt('Введите Ваш  возраст', '')); 
       }
      
    },
@@ -67,7 +67,7 @@ const person = {
       const anketa =   `ФИО : ${this.surname} ${this.name} ${this.patronymic}
                         Ваш возраст в годах : ${this.age}
                         Ваш возраст в днях : ${this.age * 365}
-                        Через 5 лет Вам будет: ${+this.age + 5}
+                        Через 5 лет Вам будет: ${this.age + 5}
                         Ваш пол : ${this.sex ? 'мужской':'женский'}  
                         Вы на пенсии: ${this.pensia}`;
    return  alert(anketa);

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task A2</title>
+</head>
+<body>
+<script>
+/*
+Написать чистую функцию, эффективно удаляющую из переданной ей строки все начальные и конечные пробелы.
+Не используйте метод строки trim.
+Не используйте массивы (это неэффективно в данной задаче).
+Если умеете работать с регулярными выражениям - не используйте и их :)
+Спросите у пользователя строку, уберите из неё с помощью этой функции начальные и конечные пробелы,
+ и выведите в alert результат, добавив к нему слева и справа какой-нибудь символ, чтобы было очевидно, 
+ что пробелов нет.
+*/
+
+const str = prompt('введите строку с начальными и конечными пробелами','');
+
+function onSpace(str) {
+    let newStr = '';
+for (let i = 0; i < str.length; i++) {
+    if (str[i] !== ' ') {
+     newStr += str[i];
+    }
+}
+alert('!'+newStr+'!')
+}
+onSpace(str);
+
+
+
+
+</script>
+   
+</body>
+</html>

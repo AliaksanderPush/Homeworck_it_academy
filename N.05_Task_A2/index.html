@@ -20,17 +20,29 @@
 
 const str = prompt('введите строку с начальными и конечными пробелами','');
 
-function onSpace(str) {
-    let newStr = '';
-for (let i = 0; i < str.length; i++) {
-    if (str[i] !== ' ') {
-     newStr += str[i];
+    function onTrimAll(str) {
+        let newStr = onTrimLeft(str);
+        return onTrimLeft(newStr);
     }
-}
-alert('!'+newStr+'!')
-}
-onSpace(str);
 
+
+    function onTrimLeft(str) {
+        let newStr;
+        for (let i = 0; i < str.length; i++) {
+            if (str[i] != ' ') {
+                newStr = str.slice(i);
+                break;
+            }
+        }
+        return onReverse(newStr);
+
+    }
+
+    function onReverse(str) {
+        return str.split('').reverse().join('');
+    }
+    let trimStr = onTrimAll(str);
+    alert('!' + trimStr + '!');
 
 
 

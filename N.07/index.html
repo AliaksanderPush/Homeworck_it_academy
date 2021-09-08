@@ -11,7 +11,7 @@
 
 const str = prompt("введите строку",'');
 
-const vowels = str => {
+function  vowels(str) {
 const letters =  ["а", "о","и", "е", "ё", "э", "ы", "у", "ю", "я"];
 const arr = str.split(' ').join('').split('');
 const result =  arr.filter(elem => {

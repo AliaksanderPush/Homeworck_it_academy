@@ -14,17 +14,17 @@
 
 
    function onTrim(str) {
-      let newStr;
+      let newStr, srtTrim;
       for (let i = 0; i < str.length; i++) {
          if (str[i] != ' ') {
             newStr = str.slice(i);
             break;
          }
       }
-       let srtTrim;
-      for (let i = newStr.length; i<=0; i--) {
-          if (str[i] != ' ') {
-            srtTrim = str.slice(i);
+       
+      for (let j = newStr.length - 1; j>=0; j--) {
+          if (str[j] != ' ') {
+            srtTrim = str.slice(0, j + 1);
             break;
          }
       }

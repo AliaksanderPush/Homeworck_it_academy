@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>1 variant</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2 variant</title>
 </head>
 <body>
- <script>
+<script>
 /*
 Написать чистую функцию, эффективно удаляющую из переданной ей строки все начальные и конечные пробелы.
 Не используйте метод строки trim.
@@ -18,31 +18,35 @@
  что пробелов нет.
 */
 
+const str = prompt('введите строку с начальными и конечными пробелами','');
 
-   const str = prompt('введите строку с начальными и конечными пробелами', '');
-   function onTrim(str) {
-    let newStr,
-        srtTrim
-       for (let i = 0; i < str.length; i++) {
-         if (str[i] != ' ') {
-            newStr = str.slice(i);
-            break;
-         }
-      }
-           
-      for (let j = newStr.length - 1; j >= 0; j--) {
-          if (newStr[j] != ' ') {
-            srtTrim = newStr.slice(0, j + 1);
-            break;
-         }
-      }
-        return srtTrim;
-      
-   }
-   let result = onTrim(str);
-  alert('!' + result + '!');
+    function onTrimAll(str) {
+        let newStr = onTrimLeft(str);
+        return onTrimLeft(newStr);
+    }
 
 
- </script>  
+    function onTrimLeft(str) {
+        let newStr;
+        for (let i = 0; i < str.length; i++) {
+            if (str[i] != ' ') {
+                newStr = str.slice(i);
+                break;
+            }
+        }
+        return onReverse(newStr);
+
+    }
+
+    function onReverse(str) {
+        return str.split('').reverse().join('');
+    }
+    let trimStr = onTrimAll(str);
+    alert('!' + trimStr + '!');
+
+
+
+</script>
+   
 </body>
 </html>

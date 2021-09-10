@@ -8,6 +8,7 @@
 </head>
 <body>
  <script>
+ "use srict"   
 /*
 Написать чистую функцию, эффективно удаляющую из переданной ей строки все начальные и конечные пробелы.
 Не используйте метод строки trim.
@@ -24,11 +25,15 @@ const str = prompt('введите строку с начальными и ко�
     let count = 0,
         count2 = 0;
        for (let i = 0; i < str.length; i++) {
-         if (str[i] == ' ') {
+         if (str[i] === ' ') {
            count++;
          } else {
             break;
          }
+        if (count == str.length) {
+           console.log("В строке одни пробелы");
+           return str = '';
+        } 
       }
       for (let j = str.length - 1; j >= 0; j--) {
           if (str[j] === ' ') {
@@ -36,8 +41,15 @@ const str = prompt('введите строку с начальными и ко�
          } else {
             break;
          }
+        
       }
-      return str.slice(count, str.length - count2);
+      if (count == 0 && count2 == 0) {
+         console.log("В сроке нет пробелов");
+         return str; 
+      } else {
+         return str.slice(count, str.length - count2); 
+      }
+      
    }
    let result = onTrim(str);
  alert('!' + result + '!');

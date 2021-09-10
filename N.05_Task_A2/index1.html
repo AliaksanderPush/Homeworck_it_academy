@@ -27,14 +27,16 @@ const str = prompt('введите строку с начальными и ко�
 
 
     function onTrimLeft(str) {
-        let newStr;
-        for (let i = 0; i < str.length; i++) {
-            if (str[i] != ' ') {
-                newStr = str.slice(i);
-                break;
-            }
-        }
-        return onReverse(newStr);
+        let count = 0,
+        count2 = 0;
+       for (let i = 0; i < str.length; i++) {
+         if (str[i] == ' ') {
+           count++;
+         } else {
+            break;
+         }
+      }
+        return onReverse(str.slice(count));
 
     }
 

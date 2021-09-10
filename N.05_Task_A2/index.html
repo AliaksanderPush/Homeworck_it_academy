@@ -19,29 +19,28 @@
 */
 
 
-   const str = prompt('введите строку с начальными и конечными пробелами', '');
+const str = prompt('введите строку с начальными и конечными пробелами', '');
    function onTrim(str) {
-    let newStr,
-        srtTrim
+    let count = 0,
+        count2 = 0;
        for (let i = 0; i < str.length; i++) {
-         if (str[i] != ' ') {
-            newStr = str.slice(i);
+         if (str[i] == ' ') {
+           count++;
+         } else {
             break;
          }
       }
-           
-      for (let j = newStr.length - 1; j >= 0; j--) {
-          if (newStr[j] != ' ') {
-            srtTrim = newStr.slice(0, j + 1);
+      for (let j = str.length - 1; j >= 0; j--) {
+          if (str[j] === ' ') {
+            count2++;   
+         } else {
             break;
          }
       }
-        return srtTrim;
-      
+      return str.slice(count, str.length - count2);
    }
    let result = onTrim(str);
-  alert('!' + result + '!');
-
+ alert('!' + result + '!');
 
  </script>  
 </body>

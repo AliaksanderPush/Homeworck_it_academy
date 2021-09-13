@@ -12,7 +12,7 @@
 const str = prompt("введите строку",'');
 
 function  vowels(str) {
-const letters =  ["а", "о","и", "е", "ё", "э", "ы", "у", "ю", "я"];
+const letters =  ["а", "А", "о", "О", "и", "И", "е", "Э",  "ё", "Ё", "э", "Э", "ы", "Ы", "у", "У", "ю", "Ю", "я", "Я"];
 const arr = str.split(' ').join('').split('');
 const result =  arr.filter(elem => {
 return  letters.indexOf(elem) !== -1

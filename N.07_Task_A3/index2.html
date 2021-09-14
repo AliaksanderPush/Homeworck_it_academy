@@ -13,44 +13,47 @@
 
 const str = prompt('Ведите строку','');
 
-//const str = 'ъ Я, и ду с мечём судия!ь';
+//const str = 'ъ Я, и ду с мечём судия!';
+
 
 function strClear(str) {
   str = str.toLowerCase();
   let newStr = '';
+  let flag = false;
     for (let i=0; i<str.length; i++) {
-       if (str[i] !== ' ' &&  str[i] !== ',' &&  str[i] !== 'ъ' && 
-       str[i] !== 'ь' && str[i] !== '.' && str[i] !== '!' && str[i] !== '?' ) {
-          newStr += str[i];
-  }
-  
-    }
-    return newStr;
-}
+     if (str[i] === 'ё') {
+        str = str.slice(0, i) + 'е' + str.slice(i + 1);
+      }
 
+     if (str[i] !== ' ' &&  str[i] !== ',' &&  str[i] !== 'ъ' && 
+       str[i] !== 'ь' && str[i] !== '.' && str[i] !== '!' && str[i] !== '?' ) {
+        newStr += str[i];  
+      } 
+    }
+  
+     return newStr;
+}
+console.log(strClear(str));
 
   function isPolindrom(str) {
-      let newStr = strClear(str);
-      let res = '';
-    for (let i=0; i < newStr.length; i++) {
-         if (newStr[i] !== newStr[newStr.length - 1 - i]) {
-           res = "не является полидромом"; 
-          } else {
-            res = "является полидромом";  
-          }
-          
-       if (newStr[i] ==='ё' && newStr[newStr.length - 1 - i] === 'е' || 
-         newStr[i] ==='е' && newStr[newStr.length - 1 - i] === 'ё') {
-           newStr[i] = newStr[newStr.length - 1 - i];
-       }
-       
+      const newStr = strClear(str);
+      const l = Math.floor(newStr.length/2);
+      let res;
+      for (let i=0; i < l; i++) {
+      if (newStr[i] !== newStr[newStr.length - 1 - i]) {
+          return false;
+      }   else {
+        res = true;
+      }
+     
     }
-    return alert(res); 
+    return res;
   }
-  isPolindrom(str);
+ let res = isPolindrom(str);
+ alert(res);
+    
 
-
-    </script>
+ </script>
     
 </body>
 </html>

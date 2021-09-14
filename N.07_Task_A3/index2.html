@@ -41,7 +41,7 @@ function strClear(str) {
           
        if (newStr[i] ==='ё' && newStr[newStr.length - 1 - i] === 'е' || 
          newStr[i] ==='е' && newStr[newStr.length - 1 - i] === 'ё') {
-           res = "является полидромом";
+           newStr[i] = newStr[newStr.length - 1 - i];
        }
        
     }

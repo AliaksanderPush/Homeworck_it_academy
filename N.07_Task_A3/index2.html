@@ -38,8 +38,8 @@ console.log(strClear(str));
       const newStr = strClear(str);
       const l = Math.floor(newStr.length/2);
       let res;
-      if (str === '' || str.length === 1) {
-         res = true;
+      if (str.length<=1 ) {
+         return true;
        }
       for (let i = 0; i < l; i++) {
       if (newStr[i] !== newStr[newStr.length - 1 - i]) {

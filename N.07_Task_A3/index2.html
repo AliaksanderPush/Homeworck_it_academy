@@ -37,19 +37,15 @@ console.log(strClear(str));
   function isPolindrom(str) {
       const newStr = strClear(str);
       const l = Math.floor(newStr.length/2);
-      let res;
-      if (str.length<=1 ) {
-         return true;
+        if (str.length<=1 ) {
+        return true;
        }
       for (let i = 0; i < l; i++) {
       if (newStr[i] !== newStr[newStr.length - 1 - i]) {
           return false;
-      }   else {
-        res = true;
-      }
-     
+       }  
     }
-    return res;
+    return true;
   }
  let res = isPolindrom(str);
  alert(res);

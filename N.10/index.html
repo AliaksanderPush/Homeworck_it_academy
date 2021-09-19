@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+</head>
+<body>
+ <script>
+
+   "use strict";
+
+   function randomDiap(n, m) {
+      return Math.floor(Math.random() * (m - n + 1)) + n;
+   }
+
+   function checkObj(obj, check_val) {
+         return Object.values(obj).includes(check_val)
+      }
+
+   function mood(colorsCount) {
+      var colors = ['', 'красный', 'оранжевый', 'жёлтый', 'зелёный', 'голубой', 'синий', 'фиолетовый'];
+      var hashColors = {};
+       console.log('цветов: ' + colorsCount);
+      for (var i = 1; i <= colorsCount; i++) {
+         var n = randomDiap(1, 7);
+         var colorName = colors[n];
+         if (checkObj(hashColors, colorName)) {
+           i--;
+         } else {
+           hashColors[`color${i}`] = colorName;
+         }
+               
+      }
+      for (colorName in hashColors) {
+            console.log(hashColors[colorName]);
+      }
+   }
+
+   mood(3);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ </script>  
+</body>
+</html>

@@ -11,37 +11,29 @@
 
    "use strict";
 
+
    function randomDiap(n, m) {
       return Math.floor(Math.random() * (m - n + 1)) + n;
    }
 
-   function checkObj(obj, check_val) {
-         return Object.values(obj).includes(check_val)
-      }
 
    function mood(colorsCount) {
       var colors = ['', 'красный', 'оранжевый', 'жёлтый', 'зелёный', 'голубой', 'синий', 'фиолетовый'];
       var hashColors = {};
-       console.log('цветов: ' + colorsCount);
+
+      console.log('цветов: ' + colorsCount);
       for (var i = 1; i <= colorsCount; i++) {
-         var n = randomDiap(1, 7);
-         var colorName = colors[n];
-         if (checkObj(hashColors, colorName)) {
-           i--;
-         } else {
-           hashColors[`color${i}`] = colorName;
-         }
-               
-      }
-      for (colorName in hashColors) {
-            console.log(hashColors[colorName]);
+         do {
+            var n = randomDiap(1, 7);
+         } while (n in hashColors);
+               hashColors[n] = i;
+               var colorName = colors[n];
+               console.log(colorName);
       }
    }
 
    mood(3);
-
-
-
+ 
 
 
 

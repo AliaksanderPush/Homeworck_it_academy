@@ -26,6 +26,8 @@
  
 "use strict"
 
+
+
    function  insertMnemonics(str) {
     let  newStr = '';
       for (let i = 0; i < str.length; i++) {
@@ -48,31 +50,39 @@
 
 
 
-   const wrapP = function buildWrapper(p, atr) {
-      const str = insertMnemonics(p);
+    function buildWrapper(tag) {
+      const tagOpen = `<${tag}`,
+            tagClose = `</${tag}>`;
+
+       return function(str, atr) {
+      const newStr = insertMnemonics(str);
       let newP = '';
+      let newAtr = '';
      if (atr) {
-          let key = Object.keys(atr);
-          let val = Object.values(atr);
-          newP = `<p ${key}='${val}'>${str}</p>`;
+         for (let key in atr) {
+           let val = insertMnemonics(atr[key]);
+           newAtr += ` ${key} = '${val}'`;
+        }
+
+          newP = `${tagOpen} ${newAtr}>${newStr}${tagClose}`;
       }  else {
-          newP = `<p>${str}</p>`;
+          newP = `${tagOpen}>${newStr}${tagClose}`;
       }
       return newP;
-    
+      }
    }
-  console.log(wrapP("Однажды в студёную зимнюю пору"));
-  console.log(wrapP("Однажды в студёную зимнюю пору", { lang: "ru" }));
-  console.log(wrapP("Однажды в <студёную> зимнюю пору")); 
 
-   const wrapH1 = function buildWrapper(H1, atr) {
-      const key = Object.keys(atr);
-      const val = Object.values(atr);
-      const newVal = insertMnemonics(val[1]);
-      return `<h1 ${key[0]}='${val[0]}' ${key[1]}='${newVal}'>${H1}</h1>`;
-          
-   }
-   console.log(wrapH1("СТИХИ", { align: "center", title: "M&M's" }));
+      const wrapP = buildWrapper("P");
+      const wrapH = buildWrapper("H1");
+      console.log(wrapP("Однажды в студёную зимнюю пору"));
+      console.log(wrapP("Однажды в студёную зимнюю пору", { lang: "ru" }));
+      console.log(wrapP("Однажды в <студёную> зимнюю пору"));
+      console.log(wrapH("СТИХИ", { align: "center", title: "M&M's" }));
+
+
+   
+  
+  
 
 
  </script>  

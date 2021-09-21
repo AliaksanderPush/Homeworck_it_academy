@@ -10,7 +10,7 @@
 <script>
 
 const str = prompt("введите строку",'');
-
+/*
 function  vowels(str) {
 const letters =  ["а", "А", "о", "О", "и", "И", "е", "Э",  "ё", "Ё", "э", "Э", "ы", "Ы", "у", "У", "ю", "Ю", "я", "Я"];
 const arr = str.split(' ').join('').split('');
@@ -22,16 +22,32 @@ return result.length;
 console.log(vowels(str));
 
     function vowels(str) {
+        let count = 0;
         const letters = ["а", "А", "о", "О", "и", "И", "е", "Э", "ё", "Ё", "э", "Э", "ы", "Ы", "у", "У", "ю", "Ю", "я", "Я"];
         const arr = str.split(' ').join('').split('');
         const result = arr.forEach(elem => {
-            
+            if (arr.includes(elem)) {
+                count++;
+            }
         });
         
-        return result.length;
+        return count;
     }
     console.log(vowels(str));
+*/
+    function vowels(str) {
+        const letters = ["а", "о", "и", "е", "ё", "э", "ы", "у", "ю", "я"];
+        const newStr = str.toLowerCase();
+        const arr = newStr.split(' ').join('').split('');
+        const result = arr.reduce( (sum, elem)=> {
+            if (arr.includes(elem)) {
+                sum++;
+            }
+        });
 
+        return result;
+    }
+    console.log(vowels(str));
 
 
 

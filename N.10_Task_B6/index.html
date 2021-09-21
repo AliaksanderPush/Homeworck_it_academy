@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+</head>
+<body>
+ <script>
+/*
+Напишите функцию для оборачивания текста в тег с атрибутами, с которой можно было бы работать в следующем стиле:
+  var wrapP=buildWrapper("P");   // строим функцию для оборачивания текста в тег P
+  console.log( wrapP("Однажды в студёную зимнюю пору") );
+  // в консоль выводится строка "<P>Однажды в студёную зимнюю пору</P>"
+  console.log( wrapP("Однажды в студёную зимнюю пору",{lang:"ru"}) );
+  // в консоль выводится строка "<P lang='ru'>Однажды в студёную зимнюю пору</P>"
+Функция должна учитывать, что некоторые символы надо заменять на HTML-мнемоники (а именно - символы < > ' " &):
+  console.log( wrapP("Однажды в <студёную> зимнюю пору") );
+  // в консоль выводится строка "<P>Однажды в &lt;студёную&gt; зимнюю пору</P>"
+  var wrapH1=buildWrapper("H1"); // строим функцию для оборачивания текста в тег H1
+  console.log( wrapH1("СТИХИ",{align:"center",title:"M&M's"}) );
+  // в консоль выводится строка "<H1 align='center' title='M&amp;M&apos;s'>СТИХИ</H1>"
+
+*/
+ 
+"use strict"
+
+   function  insertMnemonics(str) {
+    let  newStr = '';
+      for (let i = 0; i < str.length; i++) {
+         if (str[i] === '<') {
+            newStr += '&lt;'
+         } else if (str[i] === '>') {
+            newStr += '&gt;';
+         } else if (str[i] === '&') {
+            newStr += '&amp;';
+         } else if (str[i] === '"') {
+            newStr += '&quot;';
+         } else if (str[i] === '\'') {
+            newStr +='&apos;'
+         } else {
+            newStr += str[i];
+         }
+      }
+      return newStr;
+   }
+
+
+
+   const wrapP = function buildWrapper(p, atr) {
+      const str = insertMnemonics(p);
+      let newP = '';
+     if (atr) {
+          let key = Object.keys(atr);
+          let val = Object.values(atr);
+          newP = `<p ${key}='${val}'>${str}</p>`;
+      }  else {
+          newP = `<p>${str}</p>`;
+      }
+      return newP;
+    
+   }
+  console.log(wrapP("Однажды в студёную зимнюю пору"));
+  console.log(wrapP("Однажды в студёную зимнюю пору", { lang: "ru" }));
+  console.log(wrapP("Однажды в <студёную> зимнюю пору")); 
+
+   const wrapH1 = function buildWrapper(H1, atr) {
+      const key = Object.keys(atr);
+      const val = Object.values(atr);
+      const newVal = insertMnemonics(val[1]);
+      return `<h1 ${key[0]}='${val[0]}' ${key[1]}='${newVal}'>${H1}</h1>`;
+          
+   }
+   console.log(wrapH1("СТИХИ", { align: "center", title: "M&M's" }));
+
+
+ </script>  
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+</head>
+<body>
+ <script>
+  const str = prompt('Ведите строку', '');
+
+   //const str = 'ъ Я, и ду с мечём судия!';
+
+
+   function strClear(str) {
+      str = str.toLowerCase();
+      let newStr = '';
+      for (let i = 0; i < str.length; i++) {
+         if (str[i] === 'ё') {
+            newStr += 'е'
+         } else if (str[i] !== ' ' && str[i] !== ',' && str[i] !== 'ъ' &&
+            str[i] !== 'ь' && str[i] !== '.' && str[i] !== '!' && str[i] !== '?') {
+            newStr += str[i];
+         }
+      }
+
+      return newStr;
+   }
+   
+   function isPolindrom(str, firstIndex, lastIndex) {
+         if (firstIndex >= lastIndex) {
+            return true;
+         } else if (str[firstIndex] === str[lastIndex]) {
+            return isPolindrom(str, firstIndex + 1, lastIndex - 1);
+         } else {
+            return false;
+         }
+
+   }
+   
+   function start() {
+     const newStr = strClear(str);
+     const firstIndex = 0;
+     const lastIndex = newStr.length - 1;
+     return isPolindrom(newStr, firstIndex, lastIndex);
+   }   
+     let result = start();
+     alert(result);
+          
+
+     
+
+     
+
+      
+      
+      
+      
+    
+
+
+
+   
+
+
+
+
+
+
+
+
+ </script>  
+</body>
+</html>

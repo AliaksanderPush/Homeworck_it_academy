@@ -27,27 +27,29 @@
 
       return newStr;
    }
-   
-   function isPolindrom(str, firstIndex, lastIndex) {
-         if (firstIndex >= lastIndex) {
-            return true;
-         } else if (str[firstIndex] === str[lastIndex]) {
-            return isPolindrom(str, firstIndex + 1, lastIndex - 1);
-         } else {
-            return false;
-         }
 
+
+   function palindromeFun(str) {
+      const newStr = strClear(str);
+      let firstIndex = -1;
+      let lastIndex = newStr.length;
+
+    return  function isPalindrom() {
+               if (firstIndex++ >= lastIndex--) {
+                  return true;
+               } else if (newStr[firstIndex++] === newStr[lastIndex--]) {
+                  return isPalindrom();
+               } else {
+                  return false;
+               }
+
+            }
    }
+     
+   let res = palindromeFun(str);
+   alert(res());
+  
    
-   function start() {
-     const newStr = strClear(str);
-     const firstIndex = 0;
-     const lastIndex = newStr.length - 1;
-     return isPolindrom(newStr, firstIndex, lastIndex);
-   }   
-     let result = start();
-     alert(result);
-          
 
      
 

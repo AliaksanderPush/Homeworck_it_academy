@@ -28,30 +28,25 @@
       return newStr;
    }
 
-
-   function palindromeFun(str) {
-      const newStr = strClear(str);
-      let firstIndex = -1;
-      let lastIndex = newStr.length;
-
-    return  function isPalindrom() {
-               if (firstIndex++ >= lastIndex--) {
+     
+    function isPalindrom(str) {
+               let newStr = strClear(str);
+               let length = newStr.length;
+               if (length == 0 || length == 1) {
                   return true;
-               } else if (newStr[firstIndex++] === newStr[lastIndex--]) {
-                  return isPalindrom();
+               } else if (newStr[0] === newStr[length - 1]) {
+                  return isPalindrom(newStr.slice(1, length - 1));
                } else {
                   return false;
                }
 
-            }
-   }
+      }
+   
      
-   let res = palindromeFun(str);
-   alert(res());
+   let res = isPalindrom(str);
+   alert(res);
   
    
-
-     
 
      
 
@@ -62,8 +57,11 @@
     
 
 
-
+ 
    
+
+
+
 
 
 

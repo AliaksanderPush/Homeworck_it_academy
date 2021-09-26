@@ -31,7 +31,7 @@
 
     function palindromeFun(str) {
         const newStr = strClear(str);
-      return function isPalindrom() {
+      return function isPalindrom(newStr) {
         const length = newStr.length;
          if (length == 0 || length == 1) {
             return true;
@@ -41,13 +41,13 @@
             return false;
          }
 
-      }
+      }(newStr)
        
     } 
    
        
    let res = palindromeFun(str);
-    alert(res());
+    alert(res);
    
   
    

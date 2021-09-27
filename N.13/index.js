@@ -36,7 +36,7 @@ let drinkStorage = new HashStorageFunc();
     }
 
     let getInfoDrinck = drinkStorage.getValue(getInfo);
-    console.log(getInfoDrinck);
+    
     
    if (getInfoDrinck) {
       const {alcoholic, recept} = getInfoDrinck;

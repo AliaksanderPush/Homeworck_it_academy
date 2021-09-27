@@ -3,11 +3,7 @@ function HashStorageFunc() {
    const self = this;
    let storage = {};
 
-   
-   self.cookingRecipe = function() {
-      console.log(storage);
-   }
-
+  
    self.addValue = function(key, value) {
        storage[key] = value ;
    }  

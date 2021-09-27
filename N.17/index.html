@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Task N.17</title>
+</head>
+<body>
+ <script>
+   const str = 'ПРа Пророрафра рауоа ффжуууууашва';
+
+
+   function vowels1(str) {
+      str = str.toLowerCase();
+      const letters = ["а", "о", "и", "е", "ё", "э", "ы", "у", "ю", "я"];
+      const arr = str.split(' ').join('').split('');
+      const result = arr.filter(elem => {
+         return letters.indexOf(elem) !== -1
+      })
+      return result.length;
+   }
+   console.log(vowels1(str));
+
+   function vowels2(str) {
+      str = str.toLowerCase();
+      let count = 0;
+      const letters = ["а", "о", "и", "е", "ё", "э", "ы", "у", "ю", "я"]; 
+      const arr = str.split(' ').join('').split('');
+      const result = arr.forEach(elem => {
+         if (letters.includes(elem)) {
+            count++;
+         }
+      });
+
+      return count;
+   }
+  console.log(vowels2(str));
+
+   function vowels3(str) {
+      const letters = ["а", "о", "и", "е", "ё", "э", "ы", "у", "ю", "я"];
+      const newStr = str.toLowerCase();
+      const arr = newStr.split(' ').join('').split('');
+      const result = arr.reduce((prev, elem) =>  {
+           if (letters.includes(elem)) {
+            prev += 1;
+          }
+          return prev;
+      },0);
+
+      return result;
+   }
+   console.log(vowels3(str));
+
+
+
+
+
+
+
+
+
+
+ </script>  
+</body>
+</html>

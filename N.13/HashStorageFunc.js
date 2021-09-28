@@ -21,11 +21,7 @@ function HashStorageFunc() {
    }
 
    self.getKeys = function() {
-      if (Object.keys(storage).length !== 0) {
-        return Object.keys(storage);
-      }  else {
-        return false;    
-      }
+     return Object.keys(storage);
      
    }
 

@@ -9,9 +9,10 @@
 <body>
  <script>
  
-
+   const str = prompt('Введите строку','');
 
    function vowels1(str) {
+      if (!str) return;
       str = str.toLowerCase();
       const letters = ["а", "о", "и", "е", "ё", "э", "ы", "у", "ю", "я"];
       const arr = str.split(' ').join('').split('');
@@ -23,6 +24,7 @@
    console.log(vowels1(str));
 
    function vowels2(str) {
+       if (!str) return;
       str = str.toLowerCase();
       let count = 0;
       const letters = ["а", "о", "и", "е", "ё", "э", "ы", "у", "ю", "я"]; 
@@ -38,6 +40,7 @@
   console.log(vowels2(str));
 
    function vowels3(str) {
+       if (!str) return;
       const letters = ["а", "о", "и", "е", "ё", "э", "ы", "у", "ю", "я"];
       const newStr = str.toLowerCase();
       const arr = newStr.split(' ').join('').split('');
@@ -51,14 +54,6 @@
       return result;
    }
    console.log(vowels3(str));
-
-
-
-
-
-
-
-
 
 
  </script>  

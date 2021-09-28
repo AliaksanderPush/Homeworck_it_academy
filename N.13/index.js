@@ -23,7 +23,7 @@ let drinkStorage = new HashStorageFunc();
    
        drinkStorage.addValue(drinck, {alcoholic:alc, recept:rec});
        alert('Данные внесены успешно!');
-       drinkStorage.cookingRecipe();
+       
     
  }
 
@@ -66,7 +66,7 @@ let drinkStorage = new HashStorageFunc();
  
  function getDrinckInfoAll() {
    let drinckAll = drinkStorage.getKeys();
-    if (drinckAll) {
+    if (drinckAll.length !== 0) {
       drinckAll = drinckAll.join(',');
       alert(drinckAll)
     } else {

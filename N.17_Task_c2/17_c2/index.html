@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+</head>
+<body>
+   <script>
+      "use strict"
+         const h1 = { a: 5, b: { b1: 6, b2: 7 }, c: [33, 22], d: null, e: undefined, f: Number.NaN };
+         /*
+         function deepCopy(h1) {
+            return JSON.parse(JSON.stringify(h1));
+         }
+         */
+         /*
+         function deepCopy(h1) {
+            let obj={};
+          for (let key in h1) {
+              obj[key] = h1[key];
+             if (typeof(h1[key]) === 'object' ) {
+                for (let i in h1[key]) {
+                   obj[key][i] = h1[key][i];
+                }
+             } 
+             
+          }
+            return obj;
+         }
+         
+         */
+         /*
+         function deepCopy(obj) {
+           let clone = {};
+           for (let key in obj) {
+             if (typeof obj[key] === "object") {
+               clone[key] = deepCopy(obj[key]);
+             } else {
+               clone[key] = obj[key];
+             }
+           }
+           return clone;
+         }
+         
+         */
+
+         function deepCopy(obj) {
+            const clObj = {};
+            for (const i in obj) {
+               if (obj[i] instanceof Object && !(obj[i] instanceof Array)) {
+                  clObj[i] = deepCopy(obj[i]);
+                  continue;
+               }
+               clObj[i] = obj[i];
+            }
+            return clObj;
+         }
+
+
+         const h2 = deepCopy(h1);
+         console.log(h1 === h2);
+         console.log(h1.a === h2.a);
+         console.log(h1.b === h2.b);
+         console.log(h1.b.b1 === h2.b.b1);
+         console.log(h1.c === h2.c);
+         console.log(h1.c[0] === h2.c[0]);
+         console.log(h1.d === h2.d);
+         console.log(h1.e === h2.e);
+         console.log(isNaN(h2.f));
+         console.log(h2.c instanceof Array);
+
+   </script>
+   
+</body>
+</html>

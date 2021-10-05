@@ -29,9 +29,7 @@
       return newStr;
    }
 
-    function palindromeFun(str) {
-        const newStr = strClear(str);
-      return function isPalindrom(newStr) {
+   function isPalindrom(newStr) {
         const length = newStr.length;
          if (length == 0 || length == 1) {
             return true;
@@ -40,10 +38,20 @@
          } else {
             return false;
          }
+         return isPalindrom(newStr);
+      }
 
-      }(newStr)
-       
-    } 
+
+
+
+
+
+    function palindromeFun(str) {
+        const newStr = strClear(str);
+        isPalindrom(newStr);   
+    }
+         
+    
    
        
    let res = palindromeFun(str);

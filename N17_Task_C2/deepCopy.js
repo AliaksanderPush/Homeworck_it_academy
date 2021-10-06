@@ -1,7 +1,7 @@
 "use strict"
 
     function deepCopyObj(obj) {
-       if (obj === null) return obj;
+       if (!Object.keys(obj).length) return obj;
          const copyObj = {};
          for (const key in obj) {
             if (obj[key] instanceof Object && !Array.isArray(obj[key])) {

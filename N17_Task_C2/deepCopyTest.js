@@ -70,7 +70,7 @@
   function deepCopyTest(arr) {
     var count = 0;   
                                   
-       arr.map(elem => {
+       arr.forEach(elem => {
        if ((elem.condition && elem.res) || (!elem.condition && !elem.res)) {
          console.log(`${elem.test} : ожидаемый результат ${elem.res} : полученный результат ${elem.res} - ТЕСТ ПРОЙДЕН`);
        }  else {

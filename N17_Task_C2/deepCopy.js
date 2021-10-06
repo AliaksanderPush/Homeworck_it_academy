@@ -4,10 +4,10 @@
             const copyObj = {};
          if (!Object.keys(obj).length) return copyObj;
          for (const key in obj) {
-            if (obj[key] instanceof Object && !Array.isArray(obj[key])) {
-               copyObj[key] = deepCopyObj(obj[key]);
-            } else if (Array.isArray(obj[key])) {
+            if (Array.isArray(obj[key])) {
                copyObj[key] = deepCopyArr(obj[key]);
+            } else if (obj[key] instanceof Object) {
+               copyObj[key] = deepCopyObj(obj[key]);
             } else {
                copyObj[key] = obj[key];
             }         

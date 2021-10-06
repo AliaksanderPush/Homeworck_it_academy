@@ -71,19 +71,17 @@
     var count = 0;   
                                   
        arr.map(elem => {
-       if (elem.condition && elem.res) {
-         console.log(`${elem.test} : ожидаемый результат ${elem.res} : полученный результат true - ТЕСТ ПРОЙДЕН`);
-       } else if (!elem.condition && !elem.res) {
-        console.log(`${elem.test} : ожидаемый результат ${elem.res} : полученный результат false - ТЕСТ ПРОЙДЕН`);
+       if ((elem.condition && elem.res) || (!elem.condition && !elem.res)) {
+         console.log(`${elem.test} : ожидаемый результат ${elem.res} : полученный результат ${elem.res} - ТЕСТ ПРОЙДЕН`);
        }  else {
         count++;
-        console.log(`${elem.test} : ожидаемый результат ${elem.res}  - ТЕСТ НЕ ПРОЙДЕН`);
+        console.log(`${elem.test} : ожидаемый результат ${elem.res} полученный результат ${!elem.res} - ТЕСТ НЕ ПРОЙДЕН!!!!`);
        }
     })
     console.log('Результаты тестирования:')
-     console.log('Не пройденных тестов'+':'+count);
-     console.log('Пройденных тестов'+':'+(arr.length - count));
-     console.log('_________________________________________________________________________________________________')
+    console.log('Пройденных тестов'+':'+(arr.length - count));
+    console.log('Не пройденных тестов'+':'+count);
+    console.log('_________________________________________________________________________________________________')
     }
  
 

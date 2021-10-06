@@ -68,7 +68,7 @@
 
 
   function deepCopyTest(arr) {
-    var count = 0;   
+    let count = 0;   
                                   
        arr.forEach(elem => {
        if ((elem.condition && elem.res) || (!elem.condition && !elem.res)) {

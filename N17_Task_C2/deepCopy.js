@@ -2,7 +2,6 @@
 
       function deepCopyObj(obj) {
             const copyObj = {};
-         if (!Object.keys(obj).length) return copyObj;
          for (const key in obj) {
             if (Array.isArray(obj[key])) {
                copyObj[key] = deepCopyArr(obj[key]);

@@ -24,17 +24,11 @@ var formDef2=
   {caption:'Зарегистрироваться',kind:'submit'},
 ];
 
-let div = document.querySelector('.container');
 
-  function createForm(arr) {
-      const h = document.createElement('h2');
-            h.innerHTML = 'Заполните и отправьте форму';
-      const hr = document.createElement('hr');
-      const f = document.createElement('form');
-            f.method = 'POST';
-            f.action = 'https://fe.it-academy.by/TestForm.php';
-            f.name =`form${Math.round(Math.random()*1000)}`;
 
+  function dyn_form(tagForm, arr) {
+    const hr = document.createElement('hr');
+    const div = document.querySelector('.container'); 
  arr.forEach(elem => {
   if (elem.kind === 'longtext') {
      const label = document.createElement('label');
@@ -47,7 +41,7 @@ let div = document.querySelector('.container');
            inpText.className = 'inp';
            label.append(inpText);
            wrap.append(label);
-           f.append(wrap);
+           tagForm.append(wrap);
   }
 
   if (elem.kind === 'number') {
@@ -61,7 +55,7 @@ let div = document.querySelector('.container');
            inpNumb.className = 'inp';
            label.append(inpNumb);
            wrap.append(label);
-           f.append(wrap);
+           tagForm.append(wrap);
   }
     
    if (elem.kind === 'shorttext') {
@@ -75,7 +69,7 @@ let div = document.querySelector('.container');
            inpEmail.className = 'inp';
            label.append(inpEmail);
            wrap.append(label);
-           f.append(wrap);
+           tagForm.append(wrap);
    }
    
    if (elem.kind === 'combo') {
@@ -99,7 +93,7 @@ let div = document.querySelector('.container');
           });
             label.append(inpSelect);
             wrap.append(label);
-            f.append(wrap);
+            tagForm.append(wrap);
              
    }
   
@@ -122,7 +116,7 @@ let div = document.querySelector('.container');
              inpRadio.className = 'radio_btn';
              label.append(inpRadio);
              wrap.append(label);
-             f.append(wrap); 
+             tagForm.append(wrap); 
        
     });
        
@@ -138,7 +132,7 @@ let div = document.querySelector('.container');
            inpCheckBox.name = elem.name;
            label.append(inpCheckBox);
            wrap.append(label);
-           f.append(wrap);
+           tagForm.append(wrap);
       
      }
   
@@ -152,7 +146,7 @@ let div = document.querySelector('.container');
           inpTextaria.className = 'textaria_inp';
           label.append(inpTextaria);
           wrap.append(label);
-          f.append(wrap);
+          tagForm.append(wrap);
       
    }
    
@@ -164,11 +158,12 @@ let div = document.querySelector('.container');
          inpBtn.value = elem.caption;
          inpBtn.className = 'btn';
          wrap.append(inpBtn);
-         f.append(wrap);
+         tagForm.append(wrap,hr);
    }
-        div.append(h,f,hr);
+        div.append(tagForm);
   });
   
 }
-createForm(formDef1);
-createForm(formDef2);
+dyn_form(document.forms[0], formDef1);
+dyn_form(document.forms[1], formDef2);
+

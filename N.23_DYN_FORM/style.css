@@ -10,7 +10,7 @@ h2 {
   text-align: center;
   color: rgb(241, 241, 64);
 }
-.container {
+.parent {
   width: 430px;
   margin: 0 auto;
 }

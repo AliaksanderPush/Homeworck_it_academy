@@ -28,7 +28,8 @@ var formDef2=
 
   function dyn_form(tagForm, arr) {
     const hr = document.createElement('hr');
-
+    const div = document.createElement('div');
+          div.className = 'parent';
  arr.forEach(elem => {
   if (elem.kind === 'longtext') {
      const label = document.createElement('label');
@@ -41,7 +42,8 @@ var formDef2=
            inpText.className = 'inp';
            label.append(inpText);
            wrap.append(label);
-           tagForm.append(wrap);
+           div.append(wrap);
+          
   }
 
   if (elem.kind === 'number') {
@@ -55,7 +57,8 @@ var formDef2=
            inpNumb.className = 'inp';
            label.append(inpNumb);
            wrap.append(label);
-           tagForm.append(wrap);
+           div.append(wrap);
+             
   }
     
    if (elem.kind === 'shorttext') {
@@ -69,7 +72,8 @@ var formDef2=
            inpEmail.className = 'inp';
            label.append(inpEmail);
            wrap.append(label);
-           tagForm.append(wrap);
+           div.append(wrap);
+         
    }
    
    if (elem.kind === 'combo') {
@@ -93,9 +97,8 @@ var formDef2=
           });
             label.append(inpSelect);
             wrap.append(label);
-            tagForm.append(wrap);
-             
-   }
+            div.append(wrap);
+    }
   
     if (elem.kind === 'radio') {
      const label = document.createElement('label');
@@ -116,9 +119,8 @@ var formDef2=
              inpRadio.className = 'radio_btn';
              label.append(inpRadio);
              wrap.append(label);
-             tagForm.append(wrap); 
-       
-    });
+             div.append(wrap); 
+      });
        
    }
    if (elem.kind === 'check') {
@@ -132,7 +134,7 @@ var formDef2=
            inpCheckBox.name = elem.name;
            label.append(inpCheckBox);
            wrap.append(label);
-           tagForm.append(wrap);
+           div.append(wrap);
       
      }
   
@@ -146,7 +148,7 @@ var formDef2=
           inpTextaria.className = 'textaria_inp';
           label.append(inpTextaria);
           wrap.append(label);
-          tagForm.append(wrap);
+          div.append(wrap);
       
    }
    
@@ -158,9 +160,9 @@ var formDef2=
          inpBtn.value = elem.caption;
          inpBtn.className = 'btn';
          wrap.append(inpBtn);
-         tagForm.append(wrap,hr);
+         div.append(wrap,hr);
    }
-       
+         tagForm.append(div); 
   });
   
 }

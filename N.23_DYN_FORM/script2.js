@@ -28,7 +28,7 @@ var formDef2=
 
   function dyn_form(tagForm, arr) {
     const hr = document.createElement('hr');
-    const div = document.querySelector('.container'); 
+
  arr.forEach(elem => {
   if (elem.kind === 'longtext') {
      const label = document.createElement('label');
@@ -160,7 +160,7 @@ var formDef2=
          wrap.append(inpBtn);
          tagForm.append(wrap,hr);
    }
-        div.append(tagForm);
+       
   });
   
 }

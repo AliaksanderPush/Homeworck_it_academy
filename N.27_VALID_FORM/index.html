@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="style.css">
+   <title>VALID_FORM</title>
+</head>
+<body>
+   <div class="container">
+      <div class="wrap">
+         <form name='INFO' action='http://fe.it-academy.by/TestForm.php' novalidate>
+            <h1>Форма для заполнения</h1>
+            <div class="item_inp " >
+               <label>
+                 Разработчики:<input type="text" name="developer" data-required = 'text' />
+               </label>
+            </div>
+            <div class="item_inp ">
+               <label>
+                 Название сайта:<input type="text" name="name_site" data-required = "text"/>
+               </label>
+            </div>
+            <div class="item_inp">
+               <label>
+                  URL сайта:<input type="text" name="url_site" data-required = "url" />
+               </label>
+            </div>
+            <div class="item_inp">
+               <label>
+                  Дата запуска сайта:<input type="date" name="date_site" data-required = "date"  />
+               </label>
+            </div>
+            <div class="item_inp">
+               <label>
+                  Посетителей в сутки:<input type="number" name="count_users_site" data-required = "usersCount"/>
+               </label>
+            </div>
+            <div class="item_inp">
+               <label>
+                  E-mail для связи:<input type="email" name="email_site" data-required = "email" />
+               </label>
+            </div>
+            <div class="item_inp">
+               <label>
+               Рубрика каталога:<select name="category_site" >
+                     <option value="1" >Здоровье</option>
+                     <option value="2">Домашний уют</option>
+                     <option value="3">Бытовая техника</option>
+                  </select>
+               </label>
+            </div>
+            <div class="item_inp">
+               <label>
+                  Размещение:
+                  <label><input type="radio" name="deploy_site" value="11" >бесплатное</label>
+                  <label><input type="radio" name="deploy_site" value="11">платное</label>
+                  <label><input type="radio" name="deploy_site" value="11">VIP</label>
+               </label>
+            </div>
+            <div class="item_inp">
+               <label>
+                  Разрешить отзывы:<input type="checkbox" name="fitback_site" />
+               </label>
+            </div>
+            <div class="item_inp">
+               <label>
+                  Описание сайта:
+                  <textarea data-required = "textarea"></textarea>
+               </label>
+            </div>
+            <button type="submit" >Отправить</button>
+         </form>
+      </div>
+   </div>
+ <script src="script.js"></script>  
+</body>
+</html>

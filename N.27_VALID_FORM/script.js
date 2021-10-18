@@ -16,14 +16,16 @@
        forInpLong: 'Значение слишком длинное!',
        forInpNumber: 'Значение должно быть числовое!',
        forInpEmail: 'Email введен некоректно!',
-       forImpURL: 'URL введен некоректно!'
+       forImpURL: 'URL введен некоректно!',
+       forDate: 'Вы ввели некоректную дату',
+       forSelect: 'Извините, эта рубрика сейчас недоступна, выберите пожалуйста другую'
 
     }
     
 
     let {isValid, formTag, inputs } = ui;
     const {validUrl, validEmail} = rule;
-    const {forInpEmpty, forInpLong, forInpNumber, forInpEmail, forImpURL} = errMessagers;
+    const {forInpEmpty, forInpLong, forInpNumber, forInpEmail, forImpURL, forDate, forSelect} = errMessagers;
     
    for (let elem of inputs) {
       if (elem.dataset.required) {
@@ -32,44 +34,78 @@
            const target = EO.target;
            const inpValue = target.value;
            const input = target.dataset.required;
-                  
-         if (!inpValue.length) {
-            showErrMessage(target, forInpEmpty);
-            isValid = !isValid;
 
-         } else if (!inpValue.length > 30) {
-              showErrMessage(target, forInpLong);
-              isValid = !isValid;
-
-         } else if (input === 'url') {
-             if (!validUrl.test(inpValue)) {
-                showErrMessage(target, forImpURL );
-                isValid = !isValid;
-             } 
-
-         } else if (input === 'email') {
-              if(!validEmail.test(inpValue)) {
-                 showErrMessage(target, forInpEmail);
+          switch (input) {
+            case 'text':
+               if (!inpValue.length) {
+                  showErrMessage(target, forInpEmpty);
                   isValid = !isValid;
-              }
-         } else if (input === 'usersCount') {
-            if (isNaN(inpValue)) {
-               showErrMessage(target, forInpNumber);
-               isValid = !isValid;
-            }
-         } else if (input === "date") {
-            console.log(inpValue);
+               }
+            break;
+            case 'text':
+               if (inpValue.length > 30) {
+                  showErrMessage(target, forInpLong);
+                  isValid = !isValid;
+               }
+            break;
+            case 'url':
+               if (!validUrl.test(inpValue)) {
+                  showErrMessage(target, forImpURL );
+                  isValid = !isValid;
+               } 
+            break;
+            case 'email':
+               if(!validEmail.test(inpValue)) {
+                  showErrMessage(target, forInpEmail);
+                   isValid = !isValid;
+               }
+            break;
+            case 'usersCount':
+               if (isNaN(inpValue)) {
+                  showErrMessage(target, forInpNumber);
+                  isValid = !isValid;
+               }
+            break;
+            case 'date':
+               if (!validateDate(inpValue)) {
+                  showErrMessage(target, forDate);
+                  isValid = !isValid; 
+               }
+            break;
+            case 'textarea':
+               if (inpValue.length > 300) {
+                  showErrMessage(target, forInpLong);
+                    isValid = !isValid; 
+               } 
+            break;
+            default:
+               isValid = true;  
+            break;
          }
-         
-         
-
          });
       }
    }
 
+   for (let elem of inputs) {
+      if (elem.dataset.sel) {
+         elem.addEventListener('change', EO => {
+            const target = EO.target;
+            const selValue = target.value;
+            if (selValue === '1') {
+               showErrMessage(target, forSelect);
+                isValid = !isValid; 
+           } else {
+
+           }
+         })
+      }
+   }
+
+
+
 for (let elem of inputs) {
-   if (elem.dataset.required) {
-      elem.addEventListener('change', () => {
+ //  if (elem.dataset.required) {
+      elem.addEventListener('input', () => {
          const parent = elem.parentElement;
          const err = parent.querySelector('.invalid')
          if (err) {
@@ -79,9 +115,8 @@ for (let elem of inputs) {
             
          
       })
-   }
+//   }
 }
-
 
 
 function showErrMessage(elem, mes) {
@@ -99,35 +134,20 @@ function showErrMessage(elem, mes) {
 } 
 
 
-
-var validator = {
-    validateDate : function( date )
-    {
-        var aTmp = date.split(".");
-        if(aTmp.length!=3)
-        {
-            return false;
-        }
- 
-        //Границы разрешенного периода. Нельзя ввести дату до 1990-го года и позднее 2020-го.
-        if((parseInt(aTmp[2], 10)<= 1990)||(parseInt(aTmp[2], 10)>=2020))
-        {
-            return false;
-        }
- 
-        var sTmp=aTmp[2] +'-'+ aTmp[1]+'-'+ aTmp[0];
- 
-        if(new Date(sTmp)=='Invalid Date')
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
-     
+function validateDate(dat) {
+   const date = dat.split('-'); 
+   const dataNow = new Date();
+   const year = dataNow.getFullYear();
+   if (parseInt(date[0], 10)<=2016 || date[0] > year)   {
+      return false;
+   }
+   const fullDate = date[0] +'-'+ date[1]+'-'+ date[2];
+      if(new Date(fullDate)=='Invalid Date') {
+         return false;
+      }  else {
+         return true;
+      }
 }
 
 
-
+   

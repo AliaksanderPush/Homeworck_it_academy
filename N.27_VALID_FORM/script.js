@@ -2,9 +2,8 @@
      
 
     let ui = {
-      isValid:true,
       formTag: document.forms.INFO,
-      inputs: document.forms.INFO.elements,
+      inputsAll: document.forms.INFO.elements,
     }
     const rule = {
        validUrl: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/,
@@ -18,92 +17,113 @@
        forInpEmail: 'Email введен некоректно!',
        forImpURL: 'URL введен некоректно!',
        forDate: 'Вы ввели некоректную дату',
-       forSelect: 'Извините, эта рубрика сейчас недоступна, выберите пожалуйста другую'
+       forSelect: 'Извините, эта рубрика сейчас недоступна, выберите пожалуйста другую',
+       forTextarea: 'Вы не ввели данные или строка слишком длинная!'
 
     }
     
 
-    let {isValid, formTag, inputs } = ui;
+    let {isValid, formTag, inputsAll } = ui;
     const {validUrl, validEmail} = rule;
-    const {forInpEmpty, forInpLong, forInpNumber, forInpEmail, forImpURL, forDate, forSelect} = errMessagers;
+    const {forInpEmpty, forInpLong, forInpNumber, forInpEmail, forImpURL, forDate, forSelect,forTextarea } = errMessagers;
     
-   for (let elem of inputs) {
+   formTag.addEventListener('submit', EO => {
+      EO=EO||window.event;
+     // EO.preventDefault();
+      onValidForm(EO);
+   });
+  
+  for (let elem of inputsAll) {
       if (elem.dataset.required) {
-         elem.addEventListener('blur', function(EO)  {
-           EO=EO||window.event;
-           const target = EO.target;
-           const inpValue = target.value;
-           const input = target.dataset.required;
+         elem.addEventListener('blur', () => {
+          const isValidInput = checkInput(elem);
+          if (!isValidInput) {
+             showErrMessage(elem, forInpLong);
+          }
+           
+         });
+      }      
+   }
 
+
+
+   function onValidForm(EO) {
+      EO=EO||window.event;
+      const inputs = [];
+      for (let elem of inputsAll) {
+         if (elem.dataset.required) {
+            inputs.push(elem);
+         }
+      }
+      
+     if (inputs.length !==0) {
+        const isValidForm = inputs.forEach(input => {
+        const isValidInput = checkInput(input);
+          if (!isValidInput) {
+            showErrMessage(input, forInpLong);
+           EO.preventDefault();
+          } else {
+             console.log('форма отправлена');
+             return isValidInput;
+          }
+     });
+
+     }  else {
+        alert('Что-то не так с формой');
+        EO.preventDefault();
+        
+     }
+   
+      
+   }
+
+   
+
+   
+   function checkInput(elem)  {     
+                 
+      try {
+           const value = elem.value;
+           const valueLength = value.length; 
+           const input = elem.dataset.required;
+       
           switch (input) {
             case 'text':
-               if (!inpValue.length) {
-                  showErrMessage(target, forInpEmpty);
-                  isValid = !isValid;
-               }
-            break;
-            case 'text':
-               if (inpValue.length > 30) {
-                  showErrMessage(target, forInpLong);
-                  isValid = !isValid;
-               }
+               return (valueLength>0 && valueLength<30);
             break;
             case 'url':
-               if (!validUrl.test(inpValue)) {
-                  showErrMessage(target, forImpURL );
-                  isValid = !isValid;
-               } 
+              return (valueLength>0 && validUrl.test(value));
             break;
             case 'email':
-               if(!validEmail.test(inpValue)) {
-                  showErrMessage(target, forInpEmail);
-                   isValid = !isValid;
-               }
+              return (valueLength>0 && validEmail.test(value));
             break;
             case 'usersCount':
-               if (isNaN(inpValue)) {
-                  showErrMessage(target, forInpNumber);
-                  isValid = !isValid;
-               }
+               return  (valueLength>0 && !isNaN(value));
             break;
             case 'date':
-               if (!validateDate(inpValue)) {
-                  showErrMessage(target, forDate);
-                  isValid = !isValid; 
-               }
+               return validateDate(value);
             break;
             case 'textarea':
-               if (inpValue.length > 300) {
-                  showErrMessage(target, forInpLong);
-                    isValid = !isValid; 
-               } 
+               return (valueLength>0 && valueLength<100)
             break;
-            default:
-               isValid = true;  
+            case 'select':
+              return  value !== '1';
             break;
          }
-         });
       }
-   }
-
-   for (let elem of inputs) {
-      if (elem.dataset.sel) {
-         elem.addEventListener('change', EO => {
-            const target = EO.target;
-            const selValue = target.value;
-            if (selValue === '1') {
-               showErrMessage(target, forSelect);
-                isValid = !isValid; 
-           } else {
-
-           }
-         })
+      catch{
+         alert('Что-то пошло не так, Пересмотрите заполнение формы, возможно, это всё из-за вас!');
+         return false;
       }
+    
    }
+      
+      
+   
 
+  
 
-
-for (let elem of inputs) {
+for (let elem of inputsAll) {
  //  if (elem.dataset.required) {
       elem.addEventListener('input', () => {
          const parent = elem.parentElement;
@@ -112,8 +132,7 @@ for (let elem of inputs) {
             elem.classList.remove('invalid_inp');
             err.remove(); 
          }
-            
-         
+
       })
 //   }
 }

@@ -4,6 +4,8 @@
     let ui = {
       formTag: document.forms.INFO,
       inputsAll: document.forms.INFO.elements,
+      radio: document.forms.INFO.elements['deploy_site'],
+      checkBox: document.forms.INFO.elements['fitback_site']
     }
     const rule = {
        validUrl: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/,
@@ -21,27 +23,33 @@
        forTextarea: 'Вы не ввели данные или строка слишком длинная!'
 
     }
+   
     
 
-    let {isValid, formTag, inputsAll } = ui;
+    let {isValid, formTag, inputsAll, radio,checkBox } = ui;
     const {validUrl, validEmail} = rule;
     const {forInpEmpty, forInpLong, forInpNumber, forInpEmail, forImpURL, forDate, forSelect,forTextarea } = errMessagers;
-    
+   
+
    formTag.addEventListener('submit', EO => {
       EO=EO||window.event;
      // EO.preventDefault();
       onValidForm(EO);
+     const rad = checkRadioInput(radio);
+     const chBox = checkRadioInput(checkBox);
+     if (!rad || !chBox) {
+      EO.preventDefault(); 
+     }
    });
   
   for (let elem of inputsAll) {
       if (elem.dataset.required) {
          elem.addEventListener('blur', () => {
-          const isValidInput = checkInput(elem);
-          if (!isValidInput) {
-             showErrMessage(elem, forInpLong);
+            const isValidInput = checkInput(elem);
+              if (!isValidInput) {
+              showErrMessage(elem, forInpLong);
           }
-           
-         });
+        });
       }      
    }
 
@@ -63,8 +71,7 @@
             showErrMessage(input, forInpLong);
            EO.preventDefault();
           } else {
-             console.log('форма отправлена');
-             return isValidInput;
+            return isValidInput;
           }
      });
 
@@ -109,6 +116,7 @@
             case 'select':
               return  value !== '1';
             break;
+           
          }
       }
       catch{
@@ -169,4 +177,26 @@ function validateDate(dat) {
 }
 
 
-   
+
+
+ function checkRadioInput(element) {
+   if (element.value == '') {
+      if (element.length ) {
+         showErrMessage(element[2]); 
+         console.log('!')
+      } 
+       if(!element.length) {
+         showErrMessage(element);
+      }
+       return false;
+   } else {
+     return true;
+   }
+ }  
+ 
+ 
+
+
+
+
+ 

@@ -12,83 +12,79 @@
        validEmail: /^([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z\.]{2,6})$/
     }
     
-    const errMessagers = {
-       forInpEmpty: 'Это поле обязательное для заполнения!',
-       forInpLong: 'Значение слишком длинное!',
-       forInpNumber: 'Значение должно быть числовое!',
-       forInpEmail: 'Email введен некоректно!',
-       forImpURL: 'URL введен некоректно!',
-       forDate: 'Вы ввели некоректную дату',
-       forSelect: 'Извините, эта рубрика сейчас недоступна, выберите пожалуйста другую',
-       forTextarea: 'Вы не ввели данные или строка слишком длинная!'
-
-    }
-   
-    
-
-    let {isValid, formTag, inputsAll, radio,checkBox } = ui;
+    const {isValid, formTag, inputsAll, radio, checkBox } = ui;
     const {validUrl, validEmail} = rule;
-    const {forInpEmpty, forInpLong, forInpNumber, forInpEmail, forImpURL, forDate, forSelect,forTextarea } = errMessagers;
-   
+
+  /* При отправке формы опрашиваем функции, которые отвечают за разные поля при разных 
+  событиях. Если обе функции вернули true отправим форму иначе не отрпавим)
+  */     
 
    formTag.addEventListener('submit', EO => {
       EO=EO||window.event;
-     // EO.preventDefault();
-      onValidForm(EO);
+     const result = onValidForm();
      const rad = checkRadioInput(radio);
      const chBox = checkRadioInput(checkBox);
-     if (!rad || !chBox) {
+     if (!rad || !chBox || !result) {
       EO.preventDefault(); 
-     }
+     } 
    });
-  
+ /* При событии blur  проверим валидность заполненных полей фукцией checkInput(elem);
+  если поле не валидное, вызовем фукцию для формирования сообщения об обшибке, передав ей 
+  элемент, который не прошел валидацию и покажем наведением фокуса  это поле
+*/
+
   for (let elem of inputsAll) {
       if (elem.dataset.required) {
-         elem.addEventListener('blur', () => {
+         elem.addEventListener('blur',() => {              
             const isValidInput = checkInput(elem);
               if (!isValidInput) {
-              showErrMessage(elem, forInpLong);
+               elem.focus();
+               showErrMessage(elem);
           }
         });
       }      
    }
-
-
-
-   function onValidForm(EO) {
-      EO=EO||window.event;
-      const inputs = [];
-      for (let elem of inputsAll) {
-         if (elem.dataset.required) {
-            inputs.push(elem);
+/* Данной функцией мы воспользуемся при отправке формы, он проверит валидность 
+полей и вернет true либо false
+*/
+   function onValidForm() {
+    let result = true;
+      for (let input of inputsAll) {
+         if (input.dataset.required) {
+           const isValidInput = checkInput(input);
+          if (!isValidInput) {
+            showErrMessage(input);
+            result = false;
+          }  
          }
       }
-      
-     if (inputs.length !==0) {
-        const isValidForm = inputs.forEach(input => {
-        const isValidInput = checkInput(input);
-          if (!isValidInput) {
-            showErrMessage(input, forInpLong);
-           EO.preventDefault();
-          } else {
-            return isValidInput;
-          }
-     });
+      return result;  
+   }
+// Убираем фокус с поля и даем возможность уйти с поля) 
 
-     }  else {
-        alert('Что-то не так с формой');
-        EO.preventDefault();
-        
-     }
-   
-      
+    for (let elem of inputsAll) {
+      if (elem.dataset.required) {
+         elem.addEventListener('change', function ()  {
+           this.blur();
+         });
+      }      
    }
 
-   
+/* проверяем поля по следующим правилам:
+Поле разработчики и имя сайта проверяем на пустоту и количество введенных символов
+Поле URL и email проверяем на коректность регуляркой по правилу, которое описано в rule 
+Поле userCount провиряем что б значение было не пустым и числовым
+Поле data проверяем функцией validateDate(dat) на коректность и ограничение по годам 
+Textarea проверяем на пустоту и макс количество введенных символов
+В селекте ограничен выбор. Выбрать первый селект нельзя
+В функции используется блок try catch чтоб выловить ошибки, которые могут возникнуть в 
+самом коде 
+*/
+
 
    
    function checkInput(elem)  {     
-                 
+   
       try {
            const value = elem.value;
            const valueLength = value.length; 
@@ -125,15 +121,11 @@
       }
     
    }
-      
-      
-   
 
+   //Убираем сообщение при вводе(input) об ошибке заполнения поля 
   
-
 for (let elem of inputsAll) {
- //  if (elem.dataset.required) {
-      elem.addEventListener('input', () => {
+       elem.addEventListener('input', () => {
          const parent = elem.parentElement;
          const err = parent.querySelector('.invalid')
          if (err) {
@@ -142,14 +134,16 @@ for (let elem of inputsAll) {
          }
 
       })
-//   }
+
 }
 
+//Формируем сообщение об ошибке по переданному элементу и выводим его
 
-function showErrMessage(elem, mes) {
+function showErrMessage(elem) {
   if (!elem.classList.contains('invalid_inp')) {
      elem.classList.add('invalid_inp');
      const parent = elem.parentElement;
+     const mes = elem.dataset.err;
      const span = document.createElement('span');
      span.innerHTML = mes || "Поле заполнено неверно!";
      span.className = 'invalid';
@@ -159,8 +153,9 @@ function showErrMessage(elem, mes) {
    }
   
 } 
-
-
+/* Функция проверяет коректность выбранной даты. Также, год в дате не должен быть больше текущего
+и не должен быть меньше 2016. 
+*/
 function validateDate(dat) {
    const date = dat.split('-'); 
    const dataNow = new Date();
@@ -176,21 +171,26 @@ function validateDate(dat) {
       }
 }
 
-
-
+/* Функция, которая проверяет отмечены ли чекбоксы или нет. Она также проверяет 
+радио кнопки.  Они должны быть отмечены,
+иначе форма не отправится.
+*/
 
  function checkRadioInput(element) {
-   if (element.value == '') {
-      if (element.length ) {
+    try {
+       if (element.value == "") {
          showErrMessage(element[2]); 
-         console.log('!')
-      } 
-       if(!element.length) {
-         showErrMessage(element);
+         document.getElementById('CAT11').scrollIntoView();
+         return false;
       }
-       return false;
-   } else {
+       if(!element.checked && !element.length) {
+         showErrMessage(element);
+         return false
+      } 
      return true;
+    }
+   catch {
+      alert('Что-то пошло не так, попробуйте выбрать другие категории!')
    }
  }  
  

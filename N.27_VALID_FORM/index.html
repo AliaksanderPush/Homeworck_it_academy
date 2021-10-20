@@ -14,37 +14,58 @@
             <h1>Форма для заполнения</h1>
             <div class="item_inp " >
                <label>
-                 Разработчики:<input type="text" name="developer" data-required = 'text' />
+                 Разработчики:<input type="text" name="developer"
+                  data-required = 'text'
+                  data-err="Вы не заполнили поле, либо его длина превышает 30 символов!"
+                   />
                </label>
             </div>
             <div class="item_inp ">
                <label>
-                 Название сайта:<input type="text" name="name_site" data-required = "text"/>
+                 Название сайта:<input type="text" name="name_site"
+                  data-required = "text"
+                  data-err="Вы не заполнили поле, либо его длина превышает 30 символов!"
+                  />
                </label>
             </div>
             <div class="item_inp">
                <label>
-                  URL сайта:<input type="text" name="url_site" data-required = "url" />
+                  URL сайта:<input type="text" name="url_site" 
+                  data-required = "url"
+                  data-err="Вы не заполнили поле, либо ввели URL некоректно!"
+                   />
                </label>
             </div>
             <div class="item_inp">
                <label>
-                  Дата запуска сайта:<input type="date" name="date_site" data-required = "date"  />
+                  Дата запуска сайта:<input type="date" name="date_site"
+                   data-required = "date" 
+                   data-err="Вы не выбрали дату либо выбрали некоректно!"
+                    />
                </label>
             </div>
             <div class="item_inp">
                <label>
-                  Посетителей в сутки:<input type="text" name="count_users_site" data-required = "usersCount"/>
+                  Посетителей в сутки:<input type="text" name="count_users_site"
+                   data-required = "usersCount"
+                   data-err="Вы не заполнили поле, либо ввели не числовое значение"
+                   />
                </label>
             </div>
             <div class="item_inp">
                <label>
-                  E-mail для связи:<input type="email" name="email_site" data-required = "email" />
+                  E-mail для связи:<input type="email" name="email_site"
+                   data-required = "email"
+                   data-err="Вы не заполнили поле, либо ввели email некоректно!"
+                    />
                </label>
             </div>
             <div class="item_inp">
                <label>
-               Рубрика каталога:<select name="category_site" data-required = "select" >
+               Рубрика каталога:<select name="category_site"
+                data-required = "select"
+                data-err="Извините, эта рубрика сейчас недоступна, выберите пожалуйста другую"
+                 >
                      <option value="1">Здоровье</option>
                      <option value="2">Домашний уют</option>
                      <option value="3" entected>Бытовая техника</option>
@@ -54,26 +75,35 @@
             <div class="item_inp">
                <label>
                   Размещение:
-                  <label><input type="radio" name="deploy_site" value="1" data-req = "radio" >бесплатное</label>
+                  <label><input id= "CAT11" type="radio" name="deploy_site" value="1" data-req = "radio" >бесплатное</label>
                   <label><input type="radio" name="deploy_site" value="2" data-req = "radio">платное</label>
-                  <label><input type="radio" name="deploy_site" value="3" data-req = "radio">VIP</label>
+                  <label><input type="radio" name="deploy_site" value="3"
+                      data-req = "radio"
+                      data-err="Выберите одну из категорий!"
+                      >VIP </label>
                </label>
             </div>
             <div class="item_inp">
                <label>
-                  Разрешить отзывы:<input type="checkbox" name="fitback_site" data-ent = "checkbox" />
+                  Разрешить отзывы:<input type="checkbox" name="fitback_site"
+                   data-err="Извините, но вы должны согласиться на коментарии"
+                   data-ent = "checkbox" />
                </label>
             </div>
             <div class="item_inp">
                <label>
                   Описание сайта:
-                  <textarea data-required = "textarea"></textarea>
+                  <textarea 
+                  data-err="Вы не заполнили поле, либо его длина превышает 200 символов!"
+                  data-required = "textarea"></textarea>
                </label>
             </div>
             <button type="submit" >Отправить</button>
          </form>
       </div>
    </div>
+   <div class="help">Правильный URL:<b>http://www.rrr.tu</b></div>
+   <div class="help">Правильный email:<b>rhr@hd.ru</b></div>
  <script src="script.js"></script>  
 </body>
 </html>

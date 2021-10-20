@@ -9,13 +9,14 @@ h1 {
 }
 .container {
   max-width: 900px;
+  background-color: aquamarine;
   border: 1px solid black;
   margin: 0 auto;
   padding: 20px;
 }
 
 .item_inp {
-  width: 600px;
+  width: 800px;
   margin: 10px;
 }
 .wrap {
@@ -30,4 +31,7 @@ h1 {
 }
 .invalid_inp {
   border: 1px solid red;
+}
+.help b {
+  margin: 20px;
 }

@@ -3,35 +3,70 @@
   padding: 0;
   box-sizing: border-box;
 }
+body {
+  background: rgb(133, 240, 229);
+}
 h1 {
   text-align: center;
   margin-bottom: 20px;
 }
 .container {
   max-width: 900px;
-  background-color: aquamarine;
   border: 1px solid black;
-  margin: 0 auto;
+  margin: 20px auto;
   padding: 20px;
+  background-color: rgb(229, 226, 226);
 }
 
 .item_inp {
-  width: 800px;
-  margin: 10px;
+  width: 850px;
+  margin: 15px 0;
 }
+
 .wrap {
   display: flex;
   justify-content: center;
 }
 .wrap label {
   margin-right: 20px;
+  font-size: 20px;
 }
+.item_inp input {
+  margin: 0 10px;
+  height: 20px;
+}
+.item_inp textarea {
+  width: 350px;
+  height: 60px;
+}
+
 .invalid {
   color: red;
+  font-size: 16px;
 }
 .invalid_inp {
   border: 1px solid red;
 }
+
+.help {
+  margin-left: 20px;
+}
+
 .help b {
   margin: 20px;
+}
+.wrap button {
+  width: 100px;
+  height: 25px;
+  border-radius: 5px;
+  background-color: rgb(140, 142, 238);
+  border: 1px solid #ccc;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 14px;
+}
+.wrap button:hover {
+  cursor: pointer;
+  background-color: blueviolet;
+  transition: all 0.3s;
 }

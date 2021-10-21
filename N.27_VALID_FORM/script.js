@@ -35,13 +35,13 @@
 
   for (let elem of inputsAll) {
       if (elem.dataset.required) {
-         elem.addEventListener('blur',() => {              
+         elem.addEventListener('blur', () => {              
             const isValidInput = checkInput(elem);
               if (!isValidInput) {
                elem.focus();
                showErrMessage(elem);
           }
-        });
+        },{once:true});
       }      
    }
 /* Данной функцией мы воспользуемся при отправке формы, он проверит валидность 
@@ -60,15 +60,8 @@
       }
       return result;  
    }
-// Убираем фокус с поля и даем возможность уйти с поля) 
 
-    for (let elem of inputsAll) {
-      if (elem.dataset.required) {
-         elem.addEventListener('change', function ()  {
-           this.blur();
-         });
-      }      
-   }
+    
 
 /* проверяем поля по следующим правилам:
 Поле разработчики и имя сайта проверяем на пустоту и количество введенных символов
@@ -86,7 +79,7 @@ Textarea проверяем на пустоту и макс количество
    function checkInput(elem)  {     
    
       try {
-           const value = elem.value;
+           const value = elem.value.trim();
            const valueLength = value.length; 
            const input = elem.dataset.required;
        
@@ -163,7 +156,12 @@ function validateDate(dat) {
    if (parseInt(date[0], 10)<=2016 || date[0] > year)   {
       return false;
    }
-   return true;
+   const fullDate = date[0] +'-'+ date[1]+'-'+ date[2];
+      if(new Date(fullDate)=='Invalid Date') {
+         return false;
+      }  else {
+         return true;
+      }
 }
 
 /* Функция, которая проверяет отмечены ли чекбоксы или нет. Она также проверяет 

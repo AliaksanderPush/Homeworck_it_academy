@@ -8,6 +8,7 @@
    <title>VALID_FORM</title>
 </head>
 <body>
+ <div class="root">
    <div class="container">
       <div class="wrap">
          <form name='INFO' action='http://fe.it-academy.by/TestForm.php' novalidate>
@@ -68,19 +69,19 @@
                  >
                      <option value="1">Здоровье</option>
                      <option value="2">Домашний уют</option>
-                     <option value="3" entected>Бытовая техника</option>
+                     <option value="3" sentected>Бытовая техника</option>
                   </select>
                </label>
             </div>
             <div class="item_inp">
                <label>
                   Размещение:
-                  <label><input id= "CAT11" type="radio" name="deploy_site" value="1" data-req = "radio" >бесплатное</label>
-                  <label><input type="radio" name="deploy_site" value="2" data-req = "radio">платное</label>
-                  <label><input type="radio" name="deploy_site" value="3"
+                  <input id= "CAT11" type="radio" name="deploy_site" value="1" data-req = "radio" >бесплатное
+                  <input type="radio" name="deploy_site" value="2" data-req = "radio" >платное
+                  <input type="radio" name="deploy_site" value="3"
                       data-req = "radio"
                       data-err="Выберите одну из категорий!"
-                      >VIP </label>
+                      >VIP 
                </label>
             </div>
             <div class="item_inp">
@@ -104,6 +105,7 @@
    </div>
    <div class="help">Правильный URL:<b>http://www.rrr.tu</b></div>
    <div class="help">Правильный email:<b>rhr@hd.ru</b></div>
+</div>
  <script src="script.js"></script>  
 </body>
 </html>

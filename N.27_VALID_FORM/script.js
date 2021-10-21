@@ -38,8 +38,9 @@
          elem.addEventListener('blur', () => {              
             const isValidInput = checkInput(elem);
               if (!isValidInput) {
+              showErrMessage(elem);
                elem.focus();
-               showErrMessage(elem);
+               
           }
         },{once:true});
       }      
@@ -47,18 +48,25 @@
 /* Данной функцией мы воспользуемся при отправке формы, он проверит валидность 
 полей и вернет true либо false
 */
+
+
    function onValidForm() {
     let result = true;
-      for (let input of inputsAll) {
+    let arr = [];
+       for (let input of inputsAll) {
          if (input.dataset.required) {
            const isValidInput = checkInput(input);
           if (!isValidInput) {
             showErrMessage(input);
-            result = false;
+              arr.push(input);
+               result = false;
           }  
          }
       }
-      return result;  
+      if (arr[0]) {
+       arr[0].focus();
+      }
+       return result;  
    }
 
     
@@ -115,10 +123,11 @@ Textarea проверяем на пустоту и макс количество
     
    }
 
-   //Убираем сообщение при вводе(input) об ошибке заполнения поля 
+   //Убираем сообщение при вводе(input) об ошибке заполнения поля (кроме радиокнопок) 
   
 for (let elem of inputsAll) {
-       elem.addEventListener('input', () => {
+   if (!elem.dataset.req) {
+        elem.addEventListener('input', () => {
          const parent = elem.parentElement;
          const err = parent.querySelector('.invalid')
          if (err) {
@@ -127,25 +136,27 @@ for (let elem of inputsAll) {
          }
 
       })
-
+   }
+     
 }
 
 //Формируем сообщение об ошибке по переданному элементу и выводим его
 
 function showErrMessage(elem) {
-  if (!elem.classList.contains('invalid_inp')) {
-     elem.classList.add('invalid_inp');
-     const parent = elem.parentElement;
-     const mes = elem.dataset.err;
-     const span = document.createElement('span');
-     span.innerHTML = mes || "Поле заполнено неверно!";
-     span.className = 'invalid';
-     parent.append(span);
-   } else {
+   if (!elem.classList.contains('invalid_inp')) {
+      elem.classList.add('invalid_inp');
+      const parent = elem.parentElement;
+      const mes = elem.dataset.err;
+      const span = document.createElement('span');
+      span.innerHTML = mes || 'Некоректно введены данные!';
+      span.className = 'invalid';
+      parent.append(span);
+   }  else {
       return;
    }
   
 } 
+
 /* Функция проверяет коректность выбранной даты. Год в дате не должен быть больше текущего
 и не должен быть меньше 2016. 
 */
@@ -153,15 +164,15 @@ function validateDate(dat) {
    const date = dat.split('-'); 
    const dataNow = new Date();
    const year = dataNow.getFullYear();
-   if (parseInt(date[0], 10)<=2016 || date[0] > year)   {
-      return false;
-   }
-   const fullDate = date[0] +'-'+ date[1]+'-'+ date[2];
-      if(new Date(fullDate)=='Invalid Date') {
+      if (parseInt(date[0], 10)<=2016 || date[0] > year)   {
          return false;
-      }  else {
-         return true;
       }
+      const fullDate = date[0] +'-'+ date[1]+'-'+ date[2];
+         if(new Date(fullDate)=='Invalid Date') {
+            return false;
+         }  else {
+            return true;
+         }
 }
 
 /* Функция, которая проверяет отмечены ли чекбоксы или нет. Она также проверяет 
@@ -172,7 +183,7 @@ function validateDate(dat) {
  function checkRadioInput(element) {
     try {
        if (element.value == "") {
-         showErrMessage(element[2]); 
+         showErrMessage(element[2]);
          document.getElementById('CAT11').scrollIntoView();
          return false;
       }
@@ -187,8 +198,18 @@ function validateDate(dat) {
    }
  }  
  
+ // убираем сообщение об ошибке с радиокнопок
+ for (let elem of radio) {
+    elem.addEventListener('click', () => {
+        const parent = elem.parentElement;
+         const err = parent.querySelector('.invalid')
+         if (err) {
+            elem.classList.remove('invalid_inp');
+            err.remove(); 
+         }
+ })
+ }
  
-
 
 
 

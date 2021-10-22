@@ -26,28 +26,28 @@
       EO.preventDefault(); 
      } 
    });
- /* При событии blur  проверим валидность заполненных полей фукцией checkInput(elem);
+ /* При событии blur  проверим валидность заполненных полей фукцией checkValid(elem);
   если поле не валидное, вызовем фукцию для формирования сообщения об обшибке, передав ей 
-  элемент, который не прошел валидацию и покажем наведением фокуса  это поле
+  элемент, который не прошел валидацию 
 */
 
   for (let elem of inputsAll) {
-      if (elem.dataset.required) {
+      if (elem.dataset.required && elem.dataset.required != 'select' && elem.dataset.required != 'checkbox') {
          elem.addEventListener('blur', () => {              
-            const isValidInput = checkInput(elem);
-              if (!isValidInput) {
-              showErrMessage(elem);
-            }else {
-             const parent = elem.parentElement;
-             const err = parent.querySelector('.invalid')
-               if (err) {
-                  elem.classList.remove('invalid_inp');
-                  err.remove(); 
-               }
-            }
+             checkValid(elem);
         });
       }      
    }
+
+// Select и Checkbox валидируем по событию change
+    for (let elem of inputsAll) {
+    if (elem.dataset.required == "checkbox" || elem.dataset.required == "select") {
+       elem.addEventListener("change", () => {
+           checkValid(elem);
+        });
+    }
+ }
+
 /* Данной функцией мы воспользуемся при отправке формы, он проверит валидность 
 полей и вернет true либо false
 */
@@ -84,7 +84,6 @@ Textarea проверяем на пустоту и макс количество
 В функции используется блок try catch чтоб выловить ошибки, которые могут возникнуть в 
 самом коде 
 */
-
 
    
    function checkInput(elem)  {     
@@ -129,7 +128,23 @@ Textarea проверяем на пустоту и макс количество
     
    }
 
-  
+   // Проверяем валидное ли поле. Если да, то покажем сообщение об ошибке
+
+  function checkValid(elem) {
+    const isValidInput = checkInput(elem);
+     if (!isValidInput) {
+      showErrMessage(elem);
+     }else {
+       const parent = elem.parentElement;
+       const err = parent.querySelector('.invalid')
+         if (err) {
+            elem.classList.remove('invalid_inp');
+            err.remove(); 
+         }
+     }
+}
+
+
 //Формируем сообщение об ошибке по переданному элементу и выводим его
 
 function showErrMessage(elem) {

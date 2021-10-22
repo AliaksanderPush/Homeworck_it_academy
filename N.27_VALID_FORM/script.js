@@ -5,8 +5,7 @@
       formTag: document.forms.INFO,
       inputsAll: document.forms.INFO.elements,
       radio: document.forms.INFO.elements['deploy_site'],
-      checkBox: document.forms.INFO.elements['fitback_site']
-    }
+      }
     const rule = {
        validUrl: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/,
        validEmail: /^([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z\.]{2,6})$/
@@ -23,8 +22,7 @@
       EO=EO||window.event;
      const result = onValidForm();
      const rad = checkRadioInput(radio);
-     const chBox = checkRadioInput(checkBox);
-     if (!rad || !chBox || !result) {
+       if (!rad || !result) {
       EO.preventDefault(); 
      } 
    });
@@ -118,6 +116,9 @@ Textarea проверяем на пустоту и макс количество
             case 'select':
               return  value !== '1';
             break;
+            case 'checkbox':
+              return  elem.checked;
+            break;
            
          }
       }
@@ -164,7 +165,7 @@ function validateDate(dat) {
          }
 }
 
-/* Функция, которая проверяет отмечены ли чекбоксы или нет. Она также проверяет 
+/* Функция, которая проверяет 
 радио кнопки.  Они должны быть отмечены,
 иначе форма не отправится.
 */
@@ -176,32 +177,24 @@ function validateDate(dat) {
          document.getElementById('CAT11').scrollIntoView();
          return false;
       }
-       if(!element.checked && !element.length) {
-         showErrMessage(element);
-         element.focus()
-         return false
-      } 
-     return true;
+      return true;
     }
    catch {
       alert('Что-то пошло не так, пересмотрите заполнение формы!')
    }
  }  
  
- // убираем сообщение об ошибке с радиокнопок и чекбокса
- for (let elem of inputsAll ) {
-      if (elem.dataset.req) {
-         console.log(elem);
-         elem.addEventListener('click', () => {
-         const parent = elem.parentElement;
-            const err = parent.querySelector('.invalid')
-            if (err) {
-               elem.classList.remove('invalid_inp');
-               err.remove(); 
-            }
-         })
+ // убираем сообщение об ошибке с радиокнопок 
+ for (let elem of radio) {
+   elem.addEventListener('click', () => {
+   const parent = elem.parentElement;
+   const err = parent.querySelector('.invalid')
+      if (err) {
+         elem.classList.remove('invalid_inp');
+         err.remove(); 
       }
-   
+   })
+         
  }
  
 

@@ -39,10 +39,15 @@
             const isValidInput = checkInput(elem);
               if (!isValidInput) {
               showErrMessage(elem);
-               elem.focus();
-               
-          }
-        },{once:true});
+            }else {
+             const parent = elem.parentElement;
+             const err = parent.querySelector('.invalid')
+               if (err) {
+                  elem.classList.remove('invalid_inp');
+                  err.remove(); 
+               }
+            }
+        });
       }      
    }
 /* Данной функцией мы воспользуемся при отправке формы, он проверит валидность 
@@ -123,23 +128,7 @@ Textarea проверяем на пустоту и макс количество
     
    }
 
-   //Убираем сообщение при вводе(input) об ошибке заполнения поля (кроме радиокнопок) 
   
-for (let elem of inputsAll) {
-   if (!elem.dataset.req) {
-        elem.addEventListener('input', () => {
-         const parent = elem.parentElement;
-         const err = parent.querySelector('.invalid')
-         if (err) {
-            elem.classList.remove('invalid_inp');
-            err.remove(); 
-         }
-
-      })
-   }
-     
-}
-
 //Формируем сообщение об ошибке по переданному элементу и выводим его
 
 function showErrMessage(elem) {
@@ -189,6 +178,7 @@ function validateDate(dat) {
       }
        if(!element.checked && !element.length) {
          showErrMessage(element);
+         element.focus()
          return false
       } 
      return true;
@@ -198,19 +188,21 @@ function validateDate(dat) {
    }
  }  
  
- // убираем сообщение об ошибке с радиокнопок
- for (let elem of radio) {
-    elem.addEventListener('click', () => {
-        const parent = elem.parentElement;
-         const err = parent.querySelector('.invalid')
-         if (err) {
-            elem.classList.remove('invalid_inp');
-            err.remove(); 
-         }
- })
+ // убираем сообщение об ошибке с радиокнопок и чекбокса
+ for (let elem of inputsAll ) {
+      if (elem.dataset.req) {
+         console.log(elem);
+         elem.addEventListener('click', () => {
+         const parent = elem.parentElement;
+            const err = parent.querySelector('.invalid')
+            if (err) {
+               elem.classList.remove('invalid_inp');
+               err.remove(); 
+            }
+         })
+      }
+   
  }
  
 
 
-
- 

@@ -30,6 +30,7 @@ h1 {
 .wrap {
   display: flex;
   justify-content: center;
+  cursor: grabbing;
 }
 .wrap label {
   margin-right: 20px;

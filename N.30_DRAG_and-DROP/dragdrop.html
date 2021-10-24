@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=UTF-8>
+    <title>drag&amp;drop</title>
+  </head>
+  <body style='min-height: 100vh'>
+<img src='http://fe.it-academy.by/Sites/0000007/sax.jpg'>
+<img src='http://fe.it-academy.by/Sites/0000007/Yin_and_Yang.png' width=100>
+<img src='http://fe.it-academy.by/Sites/0000007/Man-and-woman.png' width=150>
+<img src='http://fe.it-academy.by/Sites/0000007/No_smoking.png' style='padding-left: 50px'>
+
+<script>
+ 'use strict';
+  const images = document.querySelectorAll('img');
+  window.addEventListener('load', imageStart);
+  let mousePrevLeft = 0;
+  let mousePrevTop = 0;
+  let currentImg;
+  
+
+  function imageStart() {
+      images.forEach(image => {
+      const pos = getElementPos(image);
+      image.style.left = pos.left + 'px';
+      image.style.top = pos.top + 'px';
+      image.addEventListener('mousedown', imageMouseDown);
+      image.addEventListener('mouseup', imageMouseUp);
+      });
+      images.forEach(image => image.style.position = 'absolute');
+ }
+ 
+  function imageMouseDown(EO) {
+      EO = EO || window.event;
+      EO.preventDefault();
+      currentImg = EO.target;
+      mousePrevLeft = EO.pageX;
+      mousePrevTop = EO.pageY;
+      document.body.append(currentImg);
+      currentImg.style.cursor = 'grabbing';
+      window.addEventListener('mousemove', imageMouseMove);
+  }
+
+  function imageMouseMove(EO) {
+      EO = EO || window.event;
+      EO.preventDefault();
+      const mouseLeft = EO.pageX - mousePrevLeft;
+      const mouseTop = EO.pageY - mousePrevTop;
+      const position = getElementPos(currentImg);
+      currentImg.style.left = (position.left + mouseLeft) + 'px';
+      currentImg.style.top = (position.top + mouseTop) + 'px';
+      mousePrevLeft = EO.pageX;
+      mousePrevTop = EO.pageY;
+  }
+
+  function imageMouseUp(EO) {
+      EO = EO || window.event;
+      EO.preventDefault();
+      currentImg.style.cursor = 'auto';
+      window.removeEventListener('mousemove', imageMouseMove);
+  }
+
+  function getElementPos(elem) {
+      const bbox = elem.getBoundingClientRect();
+      return {
+        left: bbox.left + window.pageXOffset,
+        top: bbox.top + window.pageYOffset
+      };
+    }
+
+</script>
+
+  </body>
+</html>

@@ -1,22 +1,3 @@
-var H1={ a:5, b: { b1:6, b2:7 } };
-var H2={ b: { b1:6, b2:7 }, a:5 };
-var H3={ a:5, b: { b1:6 } };
-var H4={ a:5, b: { b1:66, b2:7 } };
-var H5={ a:5, b: { b1:6, b2:7, b3:8 } };
-var H6={ a:null, b:undefined, c:Number.NaN };
-var H7={ c:Number.NaN, b:undefined, a:null };
-var H8={a:5,b:6};
-var H9={c:5,d:6};
-var H10={a:5};
-var A1=[5,7];
-var A2=[5,5,7];
-var A3=[5,8,7];
-
-let a = [1, 2, 3, 4, 5, 6, 7];
-let b = [7, 1, 2, 3, 4, 5, 6];
-let c = [[3,5],[1,2],9];
-let d = [[3,5],[1,2,3],9];
- 
 
 function deepComp(object1, object2) {
   
@@ -31,11 +12,11 @@ function deepComp(object1, object2) {
               typeof object1 === 'number' && isNaN(object2)) {
       return true;
 
-   } else {
+   }  else {
       return object1 === object2;
    }
 }
-console.log();
+
  
 
 function compareArray(array1, array2) {
@@ -49,7 +30,16 @@ function compareArray(array1, array2) {
    
       if (Array.isArray(value) && Array.isArray(arr2[i])) {
          return  compareArray(value, arr2[i]);
-      } else {
+
+      } else if ((value instanceof Object  &&  arr2[i] instanceof Object &&
+          value !== null  && arr2[i] !== null)) {
+        return  compareObject(value, arr2[i]);
+
+      } else if ( isNaN(value) && typeof value === 'number' &&
+                  isNaN(arr2[i]) && typeof arr2[i] === 'number') {
+         return true;      
+
+      }  else {
          return  value === arr2[i]; 
       } 
 });
@@ -71,8 +61,11 @@ function compareObject(obj1, obj2) {
       }
    }
    return keys1.every( key => {
-      if ((obj1[key] instanceof Object ) && (obj2[key] instanceof Object) &&
-          (obj1[key] !== null ) && (obj2[key] !== null)) {
+     if (Array.isArray(obj1[key]) && Array.isArray(obj1[key])) {
+        return compareArray(obj1[key],obj2[key]);
+
+     } else  if (obj1[key] instanceof Object  &&  obj2[key] instanceof Object &&
+          obj1[key] !== null  && obj2[key] !== null) {
         return compareObject(obj1[key],obj2[key]);
            
       } else if ( isNaN(obj1[key]) && typeof obj1[key] === 'number' &&
@@ -87,4 +80,4 @@ function compareObject(obj1, obj2) {
 
 
 
-//console.log(compareObject(H1,H2));
+

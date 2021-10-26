@@ -12,6 +12,11 @@ var A1=[5,7];
 var A2=[5,5,7];
 var A3=[5,8,7];
 
+const H13 = {c:[1,2], a:5, b: { b1:null, b2:[3,Number.NaN]}};
+const H14 = { a:5, b: { b1:null, b2:[3,Number.NaN]},c:[1,2]};
+const H15 = [{a:7,b:Number.NaN}, 2, 'sss', [1,{c:[5,null,9]}]];
+const H16 = [{a:7,b:Number.NaN}, 2, 'sss', [1,{c:[5,null,9]}]];
+const H17 = [{a:7,b:Number.NaN}, 2, 'sss', [1,{c:[5,null,9,true]}]];
 
 const testObject = [
     {result:deepComp(H1,H2), test:'тест 1.1', res: true },
@@ -33,7 +38,10 @@ const testObject = [
     {result:deepComp([5,7],{0:5,1:7}), test:'тест 1.17', res: false},
     {result:deepComp([5,7],{0:5,1:7,'length':2}), test:'тест 1.18', res: false},
     {result:deepComp("aaa","bbb"), test:'тест 1.19', res: false},
-    {result:deepComp(Number.NaN,Number.NaN), test:'тест 1.20', res: true}
+    {result:deepComp(Number.NaN,Number.NaN), test:'тест 1.20', res: true},
+    {result:deepComp(H13,H14), test:'тест 1.21', res: true},
+    {result:deepComp(H15,H16), test:'тест 1.22', res: true},
+    {result:deepComp(H15,H17), test:'тест 1.23', res: false},
   ];
 
  function deepCopyTest(arr) {
@@ -54,4 +62,4 @@ const testObject = [
     }
     deepCopyTest(testObject);
    
-   
+  

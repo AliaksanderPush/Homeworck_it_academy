@@ -60,6 +60,7 @@ const testObject = [
     console.log('Не пройденных тестов'+':'+count);
     console.log('_________________________________________________________________________________________________')
     }
-    deepCopyTest(testObject);
-   
+    
+   deepCopyTest(testObject);
+    
   

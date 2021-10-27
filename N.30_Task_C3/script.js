@@ -4,8 +4,8 @@ function deepComp(object1, object2) {
  if (Array.isArray(object1) && Array.isArray(object2)) {
       return  compareArray(object1, object2);
 
-   } else if (object1 instanceof Object && !Array.isArray(object1) &&
-              object2 instanceof Object && !Array.isArray(object2)) {
+   } else if (Array.isArray(object1) === Array.isArray(object2) &&
+              object2 instanceof Object && object1 instanceof Object) {
       return  compareObject(object1, object2);
 
    } else if ( isNaN(object1) && typeof object1 === 'number' &&

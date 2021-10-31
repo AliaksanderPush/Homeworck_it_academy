@@ -62,5 +62,10 @@ const testObject = [
     }
     
    deepCopyTest(testObject);
+
+   console.log(typeof Number.NaN);
+   console.log(typeof 6);
+   console.log(isNaN(Number.NaN));
+   console.log(isNaN(6))
     
   

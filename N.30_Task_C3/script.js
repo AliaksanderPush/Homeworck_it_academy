@@ -8,8 +8,8 @@ function deepComp(object1, object2) {
               object2 instanceof Object && object1 instanceof Object) {
       return  compareObject(object1, object2);
 
-   } else if ( isNaN(object1) && typeof object1 === 'number' &&
-               isNaN(object2) && typeof object2 === 'number') {
+   } else if (typeof object1 === 'number' && isNaN(object1)  &&
+              typeof object2 === 'number' && isNaN(object2)  ) {
       return true;     
 
    }  else {

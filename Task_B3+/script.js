@@ -2,16 +2,51 @@
 
 //Функция работает со строкой и группирует полож числа,отриц.,дробные и т.д и складывает в массив
 //Можно было бы заморочится и еще больше написать вариантов, но функция итак громоздская и лучше,наверное, регулярками такое делать
-
+ 
 function numberSort(str) {
-   let numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+   const numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+   const mark = ['+', '-', '*', '/','.'];
    let arr = [];
    let strNum = '';
+   let count = 0;
+   for (let j = 0; j<str.length; j++) {
+      if (str[j] === '(') {
+         count++;
+      } else if (str[j] === ')') {
+         count--;
+      } else if (mark.indexOf(str[j]) !== -1 && mark.indexOf(str[j + 1]) !== -1) {
+         alert('Два знака операции вподряд недопустимы!');
+           return null;
+      } else if (mark.indexOf(str[j]) === -1 && numbers.indexOf(str[j]) === -1 ) {
+         alert('Что-то Вы ввели некоректно!');
+           return null; 
+      } else if ((numbers.indexOf(str[j]) !== -1 && 
+                 numbers.indexOf(str[j + 1]) !== -1 &&
+                 numbers.indexOf(str[j + 2]) !== -1) ||
+                 str[j] === '.' && numbers.indexOf(str[j + 1]) !== -1 &&
+                 numbers.indexOf(str[j + 2]) !== -1) {
+                    alert('Калькулятор может работать с числами до 100 и дробями до одного знака после точки!');
+                     return null;
+                 }
+   }
+if (count !==0) {
+   alert('Скорей всего вы неправильно расставили скобки в выражении!');
+      return null;
+}
+
    for (let i = 0; i < str.length; i++) {
       if ((str[i] === '-' && i === 0 && str[i + 2] === '.')) { // ищем и формируем строку вида: -2.5
          strNum = str[i]+str[i + 1] + str[i + 2] + str[i + 3];// если выраж. начинается с него
-         str = str.slice(0,i)+str.slice(i+3);
+         str = str.slice(0, i)+str.slice(i + 3);
          arr.push(strNum);
+      } else if (str[i] === '-' && i === 0 && numbers.indexOf(str[i + 1]) != -1 && numbers.indexOf(str[i + 2]) != -1) { // если начинается вот так: -20
+         strNum = str[i]+str[i + 1] + str[i + 2];
+         str = str.slice(0,i)+str.slice(i+2);
+         arr.push(strNum);   
+      } else if (str[i] === '-' && i === 0 && numbers.indexOf(str[i + 1]) != -1 ) { // если начинается вот так: -5
+         strNum = str[i]+str[i + 1];
+         str = str.slice(0,i)+str.slice(i+1);
+         arr.push(strNum);   
       } else if((str[i -1] === '(' && str[i] === '-' && numbers.indexOf(str[i + 1]) != -1 && numbers.indexOf(str[i + 2]) != -1)) {
          strNum = str[i]+str[i + 1] + str[i + 2];// если начинается вот так: (-20)
          str = str.slice(0,i)+str.slice(i+2);
@@ -97,7 +132,7 @@ return  function calculator(arr) {
  
 //console.log(miniCalculator(str));
 
-// Функция принимает массив и  знаки: либо '*/' либо '+-'.Ищет знак и вырезает 
+// Функция принимает массив и  знаки: либо '//' либо '+-'.Ищет знак и вырезает 
 // фрагмент вида ['2','+','2'] что б передать в функцию calkResult(arr), которая умеет
 // считать такие фрагменты и получив результат вставляет назад в массив и возращаем его
    function insertResult(arr,prop1, prop2) {

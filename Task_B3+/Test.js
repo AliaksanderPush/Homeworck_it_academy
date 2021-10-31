@@ -9,9 +9,10 @@ const str8 = '-2.5+4/2-1';
 const str9 = '10+24/8*(15-5)';
 const str10 = '50-10-5/(2-1)';
 const str11 = '-20-(2+5)';
+const str12 = "2*-(-12+5+4)";
 
 
-
+/*
 
 const testObject = [
     {result:miniCalculator(str1), test:'тест 1.1', res: 7 },
@@ -24,7 +25,8 @@ const testObject = [
     {result:miniCalculator(str8), test:'тест 1.8', res: -1.5},
     {result:miniCalculator(str9), test:'тест 1.9', res: 40},
     {result:miniCalculator(str10), test:'тест 1.10', res: 35},
-    {result:miniCalculator(str11), test:'тест 1.11', res: -27} 
+    {result:miniCalculator(str11), test:'тест 1.11', res: -27},
+    {result:miniCalculator(str12), test:'тест 1.11', res: 14} 
   ];
 
  function deepCopyTest(arr) {
@@ -46,4 +48,4 @@ const testObject = [
     
    deepCopyTest(testObject);
     
-  
+  */

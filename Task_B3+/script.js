@@ -2,10 +2,10 @@
 
 //Функция работает со строкой и группирует полож числа,отриц.,дробные и т.д и складывает в массив
 //Можно было бы заморочится и еще больше написать вариантов, но функция итак громоздская и лучше,наверное, регулярками такое делать
- 
+const str = "2*-(-12+5)";
 function numberSort(str) {
    const numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
-   const mark = ['+', '-', '*', '/','.'];
+   const mark = ['+', '-', '*', '/','.',')','('];
    let arr = [];
    let strNum = '';
    let count = 0;
@@ -14,22 +14,22 @@ function numberSort(str) {
          count++;
       } else if (str[j] === ')') {
          count--;
-      } else if (mark.indexOf(str[j]) !== -1 && mark.indexOf(str[j + 1]) !== -1) {
+      } else if (mark.indexOf(str[j]) !== -1 && (str[j + 1] === '*'|| str[j + 1] === '/' || str[j + 1] === '.' || str[j + 1] === '+') ) {
          alert('Два знака операции вподряд недопустимы!');
            return null;
-      } else if (mark.indexOf(str[j]) === -1 && numbers.indexOf(str[j]) === -1 ) {
+      } else if ([...numbers,...mark].indexOf(str[j]) === -1) {
          alert('Что-то Вы ввели некоректно!');
            return null; 
       } else if ((numbers.indexOf(str[j]) !== -1 && 
-                 numbers.indexOf(str[j + 1]) !== -1 &&
-                 numbers.indexOf(str[j + 2]) !== -1) ||
-                 str[j] === '.' && numbers.indexOf(str[j + 1]) !== -1 &&
-                 numbers.indexOf(str[j + 2]) !== -1) {
+                  numbers.indexOf(str[j + 1]) !== -1 &&
+                  numbers.indexOf(str[j + 2]) !== -1) ||
+                  str[j] === '.' && numbers.indexOf(str[j + 1]) !== -1 &&
+                  numbers.indexOf(str[j + 2]) !== -1) {
                     alert('Калькулятор может работать с числами до 100 и дробями до одного знака после точки!');
                      return null;
                  }
    }
-if (count !==0) {
+if (count !== 0) {
    alert('Скорей всего вы неправильно расставили скобки в выражении!');
       return null;
 }
@@ -95,53 +95,69 @@ return  function calculator(arr) {
          let valueBrackets = arr.splice(index1, index + 1);// формируем фрагмент,который был внутри скобок
          valueBrackets.pop();  // удаляем по краям скобки
          valueBrackets.shift();
+         console.log(valueBrackets);
          if (valueBrackets.length === 1) { // Если в скобках оказалось выражение типа (-3), то мы его не отправляем
             arr.splice(index1, 0, valueBrackets[0]);// считаться, вставляем его сразу в массив
+         } else if (valueBrackets.length > 4) {
+             const responce1 = insertResult(valueBrackets, '+', '-');
+             console.log(responce1);
+             arr.splice(index1, 0, responce1); 
          } else {
-            let resp1 = calkResult(valueBrackets); // отправляем фрагмент в функцию calkResult(valueBrackets), котора 
-            arr.splice(index1, 0, resp1);  // посчитает и вернет результат
+            const responce = calkResult(valueBrackets);// отправляем фрагмент в функцию calkResult(valueBrackets), которая
+            arr.splice(index1, 0, responce);  // посчитает и вернет результат
          }
             if (arr.includes('(')) { // рекурсивно вызовем функция опять,если там еще остались выражения в скобках
             return calculator(arr);
          }
       }  
    }   // разобравшись со скобками ищем другие операции. 
-     
+ 
       if (arr.includes('*') || arr.includes('/')) { // Что бы расставить приоритеты сначало будем умножать и делить
           prop1 = '*';
           prop2 = '/';
           result = insertResult(arr, prop1, prop2);// вынес группировку и цикл в отдельную функцию, что бы не было Don't repeat youself
-         
+         console.log(result);
       } else  {
           prop1 = '+';    // после деления и умнож. будем искать действия со сложением и вычет.
           prop2 = '-';      
           result = insertResult(arr, prop1, prop2);
-          
+          console.log(result);
       } 
 
-      if (arr.length == 1) { // Проверяем полученные выше результат.Если в вернувшемся массиве одно число,то ответ очевиден
-         result = arr[0];
+      if (arr.length === 1) { // Проверяем полученные выше результат.Если в вернувшемся массиве одно число,то ответ очевиден
+       return result = arr[0];
          } else {  // если там есть еще какие-то выражения, то вызовем опять функцию рекурсивно
             return calculator(arr);
          }
-
-   return result;
+     
+   
    }(arr)
 
 }
  
-//console.log(miniCalculator(str));
+console.log(miniCalculator(str));
 
 // Функция принимает массив и  знаки: либо '//' либо '+-'.Ищет знак и вырезает 
 // фрагмент вида ['2','+','2'] что б передать в функцию calkResult(arr), которая умеет
 // считать такие фрагменты и получив результат вставляет назад в массив и возращаем его
-   function insertResult(arr,prop1, prop2) {
+   function insertResult(arr, prop1, prop2) {
          for (let i=0; i<arr.length; i++) {
+            if ((arr[i] === prop1 || arr[i] === prop2) && arr[i + 1] == '-') { // если в массиве есть унарный минус
+                  const value = arr.splice(i + 1, 1);   // то вырежем его и присвоим к результату если он положительный 
+                  const value1 = arr.splice(i - 1, 3);  // если отрицательный то '-' и '-' даст + и ничего не нужно будет присваивать
+                  const resp1 = calkResult(value1);
+                  if (resp1 > 0) {
+                  return arr.splice(i - 1, 0, value[0]+resp1); 
+                  } else {
+                  const resp1Abs = Math.abs(resp1);
+                  return arr.splice(i - 1, 0, resp1Abs); 
+                  }
+            }
+
             if (arr[i] === prop1 || arr[i] === prop2) {
-               let index = i - 1;
-               let value = arr.splice(index, 3);
-               let resp = calkResult(value);
-               return arr.splice(index, 0, resp);
+                  const value2 = arr.splice(i - 1, 3);
+                  const resp2 = calkResult(value2);
+                  return arr.splice(i - 1, 0, resp2);
             } 
          }
    }
@@ -151,16 +167,17 @@ return  function calculator(arr) {
          let result = 0;
          for (let i = 0; i < arr.length; i++) {
             if (arr[i] === '*') {
-               result = Number(arr[i - 1]) * Number(arr[i + 1]);
+              result = Number(arr[i - 1]) * Number(arr[i + 1]);
             } else if (arr[i] === '/') {
-               result = Number(arr[i - 1]) / Number(arr[i + 1]);
+              result = Number(arr[i - 1]) / Number(arr[i + 1]);
             } else if (arr[i] === '+') {
-               result = Number(arr[i - 1]) + Number(arr[i + 1]);
+              result = Number(arr[i - 1]) + Number(arr[i + 1]);
             } else if (arr[i] === '-') {
-               result = Number(arr[i - 1]) - Number(arr[i + 1]);
-            }
+              result = Number(arr[i - 1]) - Number(arr[i + 1]);
+            } 
          }
-         return result;
+          console.log(result)
+          return result;
       }
 
 

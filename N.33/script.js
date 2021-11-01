@@ -5,9 +5,10 @@
          div = container.querySelector('.for_input'),
          btn = div.querySelector('.btn'),
          input = div.querySelector('.input'),
-         minutArrow = clock.querySelector('.minut'),
-         secondsArrow = clock.querySelector('.second');
-
+         hoursArrow = clock.querySelector('.hour'),     
+         minutsArrow = clock.querySelector('.minut'),
+         secondsArrow = clock.querySelector('.second'),
+         electClock = clock.querySelector('.el_clock');
   
    const sizeNumber = radius => radius/4.5;// фун-я,которая возвращает размер цифр взависимости от диаметра часов 
    const radiusNumber = (radius, sizeNumbers) => radius - sizeNumbers; // диаметр окружности на которой распологаютя кружки для цифр
@@ -19,13 +20,14 @@
        
      
    btn.addEventListener('click', hideInput);   
+   window.addEventListener('load', getTime);
 
    function hideInput() {
-   const  radiusClock = 250; // диаметр циферблата(часов)
+   const  radiusClock = input.value / 2; // диаметр циферблата(часов)
    if (!radiusClock || radiusClock > 800 || radiusClock < 200) {
     return  alert('Введите диаметр от 200 до 800 пикселей');
    }  
-  //    div.classList.add('hide');
+      div.classList.add('hide');
       clockBuild(radiusClock);
    }
 
@@ -61,16 +63,40 @@
          clock.append(circle);
          
       }
-      const hoursArrow = clock.querySelector('.hour');
-      hoursArrow.style.width = arrowWigth/1.5 + 'px';
-      hoursArrow.style.height = radiusClock/2 + 'px';
+
+     
+      const arroWigth  = arrowWigth(radiusClock);
+      hoursArrow.style.width = arroWigth/1.5 + 'px'; 
+      hoursArrow.style.height = radiusClock/2 + 'px'; 
       hoursArrow.style.position = 'absolute';
       hoursArrow.style.bottom = radiusClock +'px';
-      hoursArrow.style.left = radiusClock - arrowWigth / 2 + "px"
+      hoursArrow.style.left = radiusClock - arroWigth / 2 + "px"
+      hoursArrow.style.zIndex = '2';
       
       
-  
+      minutsArrow.style.width = arroWigth/4 + 'px';
+      minutsArrow.style.height = radiusClock/1.5 + 'px';
+      minutsArrow.style.position = 'absolute';
+      minutsArrow.style.bottom = radiusClock +'px';
+      minutsArrow.style.left = radiusClock - arroWigth / 4 + "px";
+      minutsArrow.style.zIndex = '5';
+      
+      
+      secondsArrow.style.width = arroWigth/8 + 'px';
+      secondsArrow.style.height = radiusClock/1.2 + 'px';
+      secondsArrow.style.position = 'absolute';
+      secondsArrow.style.bottom = radiusClock +'px';
+      secondsArrow.style.left = radiusClock - arroWigth / 6 + "px";
+      secondsArrow.style.zIndex = '2';
 
+      const sizeNumbers = sizeNumber(radiusClock);
+      electClock.style.position = "absolute"; //позиционируем электронные часы
+      electClock.style.left = radiusClock - radiusClock / 4 + "px"; 
+      electClock.style.top = radiusClock / 2.5 + "px"; 
+      electClock.style.width = radiusClock / 2 + "px"; 
+      electClock.style.fontSize = sizeNumbers / 2 + "px"; 
+      electClock.style.zIndex = '3';
+      
    }
    
    
@@ -81,15 +107,17 @@
       const data = new Date();
       const hours = data.getHours()*degHour;
       const minuts = data.getMinutes()*deg;
-      const second = data.second()*deg;
-    
-      hoursArrow.style.transform = `ratazeZ(${hours + minuts/hour}deg)`;
-      minutsArrow.style.transform = `ratazeZ(${minuts}deg)`;
-      secondsArrow.style.transform = `ratazeZ(${second}deg)`;
+      const second = data.getSeconds()*deg;
 
+    electClock.textContent = data.toLocaleTimeString();
+
+    hoursArrow.style.transform = `rotateZ(${hours + (minuts/hour)}deg)`; 
+    minutsArrow.style.transform = `rotateZ(${minuts}deg)`;
+    secondsArrow.style.transform = `rotateZ(${second}deg)`;
+    setInterval(getTime);
    }   
 
-
+  
 
 
 

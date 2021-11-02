@@ -25,12 +25,10 @@
 .numbers_circle {
   border-radius: 50%;
   background-color: cadetblue;
+  text-align: center;
 }
 .clock {
   position: relative;
-}
-.block_numbers {
-  text-align: center;
 }
 
 .minut,

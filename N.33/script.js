@@ -1,7 +1,8 @@
-'use strict'
 
+
+(function()   {
    const container = document.querySelector('.container'),
-         clock = document.querySelector('.clock'),
+         clock = container.querySelector('.clock'),
          div = container.querySelector('.for_input'),
          btn = div.querySelector('.btn'),
          input = div.querySelector('.input'),
@@ -15,7 +16,6 @@
    const arrowWigth = radius => radius/20; //фун-я которая считает толщину стрелок взависимости от диаметра часов 
    const numCenter = (radius, sizeNumbers) => radius - sizeNumbers/2; //фун-я определяет положение кружка на цифеблате по координатам 
    const angles = i => i / 12 * Math.PI * 2; // функция дя расчета угла в радианах 
-   const fontSizes = (sizeNumber, k) => sizeNumber / k; //фун-я для расчета размера шрифта с учетом коэфф. k
    const deg = 6,// угол поворота сек/мин стрелки в сек/мин в градусах
          hour = 12, // кол-во часов
          degHour = 30; // угол поворота часовой стрелки в час в градусах
@@ -31,7 +31,7 @@
          l3 = 6;
    const t1 = 2.5; // поправочны коэф на координату У  
    const f1 = 1.5, // коэффициенты размеров шрифта
-         f2 = 2;
+         f2 = 1.1;
    btn.addEventListener('click', hideInput);   
    window.addEventListener('load', getTime);
 
@@ -77,7 +77,7 @@
          
       }
 
-     
+     // часовая стрелка
       const arroWigth  = arrowWigth(radiusClock);
       hoursArrow.style.width = arroWigth/k1 + 'px'; 
       hoursArrow.style.height = radiusClock/n3 + 'px'; 
@@ -86,7 +86,7 @@
       hoursArrow.style.left = radiusClock - arroWigth / l1+ "px"
       hoursArrow.style.zIndex = '2';
       
-      
+      //минутная стрелка
       minutsArrow.style.width = arroWigth/k2 + 'px';
       minutsArrow.style.height = radiusClock/n2 + 'px';
       minutsArrow.style.position = 'absolute';
@@ -94,14 +94,15 @@
       minutsArrow.style.left = radiusClock - arroWigth / l2 + "px";
       minutsArrow.style.zIndex = '5';
       
-      
+      // секундная стрелка
       secondsArrow.style.width = arroWigth/k3 + 'px';
       secondsArrow.style.height = radiusClock/n1 + 'px';
       secondsArrow.style.position = 'absolute';
       secondsArrow.style.bottom = radiusClock +'px';
       secondsArrow.style.left = radiusClock - arroWigth / l3 + "px";
       secondsArrow.style.zIndex = '2';
-
+     
+      // электронные часы
       const sizeNumbers = sizeNumber(radiusClock);
       electClock.style.position = "absolute"; //позиционируем электронные часы
       electClock.style.left = radiusClock - radiusClock / l2 + "px"; 
@@ -130,7 +131,7 @@
     setInterval(getTime);
    }   
 
-  
+  }());
 
 
 

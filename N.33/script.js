@@ -9,10 +9,10 @@
          hoursArrow = clock.querySelector('.hour'),     
          minutsArrow = clock.querySelector('.minut'),
          secondsArrow = clock.querySelector('.second'),
-         electClock = clock.querySelector('.el_clock');
+        electClock = clock.querySelector('#el_clock'); 
   
-   const sizeNumber = radius => radius/4.5;// фун-я,которая возвращает размер цифр взависимости от диаметра часов 
-   const radiusNumber = (radius, sizeNumbers) => radius - sizeNumbers; // радиус окружности на которой распологаютя кружки для цифр
+   const sizeNumber = radius => radius/4.5;// фун-я для расчета размера цифр взависимости от диаметра часов 
+   const radiusNumber = (radius, sizeNumbers) => radius - sizeNumbers; // радиус окружности на которой распологаются кружки для цифр
    const arrowWigth = radius => radius/20; //фун-я которая считает толщину стрелок взависимости от диаметра часов 
    const numCenter = (radius, sizeNumbers) => radius - sizeNumbers/2; //фун-я определяет положение кружка на цифеблате по координатам 
    const angles = i => i / 12 * Math.PI * 2; // функция дя расчета угла в радианах 
@@ -41,7 +41,7 @@
     return  alert('Введите диаметр от 200 до 800 пикселей');
    }  
       div.classList.add('hide');
-      const radiusClock = diametrClock / 2;
+      const radiusClock = diametrClock / 2;  //для удобства расчета получим радиус циферблата
       clockBuild(radiusClock);
    }
 
@@ -104,13 +104,16 @@
      
       // электронные часы
       const sizeNumbers = sizeNumber(radiusClock);
-      electClock.style.position = "absolute"; //позиционируем электронные часы
+    
+      electClock.style.position = "absolute"; 
       electClock.style.left = radiusClock - radiusClock / l2 + "px"; 
       electClock.style.top = radiusClock / t1 + "px"; 
       electClock.style.width = radiusClock / k4 + "px"; 
       electClock.style.fontSize = sizeNumbers / f2 + "px"; 
+      electClock.classList.remove('hide');
+      electClock.classList.add('el_clock');
       electClock.style.zIndex = '3';
-      
+       
    }
    
    
@@ -123,7 +126,7 @@
       const minuts = data.getMinutes()*deg;
       const second = data.getSeconds()*deg;
 
-    electClock.textContent = data.toLocaleTimeString();
+   electClock.textContent = data.toLocaleTimeString();
 
     hoursArrow.style.transform = `rotateZ(${hours + (minuts/hour)}deg)`; 
     minutsArrow.style.transform = `rotateZ(${minuts}deg)`;

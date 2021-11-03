@@ -10,7 +10,7 @@
    const minutsArrow = document.createElementNS("http://www.w3.org/2000/svg","line");
    const secondsArrow = document.createElementNS("http://www.w3.org/2000/svg","line");
    
-   const sizeNumber = radius => radius/4.5;// фун-я,которая возвращает размер цифр взависимости от диаметра часов 
+   const sizeNumber = radius => radius/4.5;// фун-я,для расчета размера цифр взависимости от диаметра часов 
    const radiusNumber = (radius, sizeNumbers) => radius - sizeNumbers; // радиус окружности на которой распологаютя кружки для цифр
    const arrowWigth = radius => radius/20; //фун-я которая считает толщину стрелок взависимости от диаметра часов 
    const angles = i => i / 12 * Math.PI * 2; // функция дя расчета угла в радианах 
@@ -40,7 +40,7 @@
       svg.setAttribute("width", diametrClock);
       svg.setAttribute("height", diametrClock); 
 
-      const radiusClock = diametrClock / 2;
+      const radiusClock = diametrClock / 2;//для удобства расчета получим радиус циферблата
       clockBuild(radiusClock);
    }
 
@@ -54,7 +54,7 @@
       clock.append(circle);
       
       
-      // Создаем и размещаем кружки для цифр на циферблате
+      // Создаем и размещаем кружки для цифр и цифры на циферблате
       for (let i = 1; i <= hour; i++) {
          const angle = angles(i);
          const sizeNumbers = sizeNumber(radiusClock);

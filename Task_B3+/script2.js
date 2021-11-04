@@ -2,7 +2,7 @@
 
 //Функция работает со строкой и группирует полож числа,отриц.,дробные и т.д и складывает в массив
 //Можно было бы заморочится и еще больше написать вариантов, но функция итак громоздская и лучше,наверное, регулярками такое делать
-const str = '-(3+5)/2';
+const str = "2*-(-12+5)";
 function numberSort(str) {
    const numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
    const mark = ['+', '-', '*', '/','.',')','('];
@@ -82,104 +82,83 @@ function miniCalculator(str) {
 return  function calculator(arr) {   
     let index1 = 0;
     let index2 = 0;
-    let answer = 0;
-       
+    let prop1 = '';
+    let prop2 = '';
+    let result = 0;
+    
    for (let i = 0; i < arr.length; i++) { // сначало работаем со значениями в скобках
       if (arr[i] === '(') {
          index1 = i;            
       } else if (arr[i] === ')') {
          index2 = i;
          let index = index2 - index1;    
-         let valueBrackets = arr.splice(index1, index + 1); // вырежем все что есть в скобках
-         valueBrackets.shift(); //сразу удалим скобки по краям
-         valueBrackets.pop();
-              
-         if (valueBrackets.length === 1) { // Если в скобках оказалось выражение типа (-3), то мы положим его обратно
-             arr.splice(index1, 0, valueBrackets[0]);
-                      
-         } else if (valueBrackets.length === 3) { // если в скобках выражение вида ['2','+','3'] то мы сразу посчитаем его фун-ей calkResult
-            const responce2 =  calkResult(valueBrackets);
-             arr.splice(index1, 0, responce2); //результат вставляем обратно в массив
-                                      
-         } else if (valueBrackets.length > 3) { // если в скобках много вских операций, то передадим все в фун-ю checkProp
-            const responce3 = checkProp(valueBrackets);      
-            arr.splice(index1, 0, responce3); //результат вставляем обратно в массив 
+         let valueBrackets = arr.splice(index1, index + 1);// формируем фрагмент,который был внутри скобок
+         valueBrackets.pop();  // удаляем по краям скобки
+         valueBrackets.shift();
+         console.log(valueBrackets);
+         if (valueBrackets.length === 1) { // Если в скобках оказалось выражение типа (-3), то мы его не отправляем
+            arr.splice(index1, 0, valueBrackets[0]);// считаться, вставляем его сразу в массив
+         } else if (valueBrackets.length > 4) {
             
+            console.log("!!") 
+         } else {
+            const responce = calkResult(valueBrackets);// отправляем фрагмент в функцию calkResult(valueBrackets), которая
+            arr.splice(index1, 0, responce);  // посчитает и вернет результат
          }
             if (arr.includes('(')) { // рекурсивно вызовем функция опять,если там еще остались выражения в скобках
             return calculator(arr);
-         } 
-    
-      }   
+         }
+      }  
+   }   // разобравшись со скобками ищем другие операции. 
      
-   }   
-     if (arr.length === 1) { // проверим что осталось с массивом после того как разобрались со скобками
-        answer = arr[0]; // вернем ответ
-     } else {
-        answer = checkProp(arr); // если еще есть операции, то передаем в все в фун-ю checkProp(arr)
-     }
-     return answer;
- }(arr)
-
-}
- 
-//console.log(miniCalculator(str));
-
-function checkProp(arr) {
-      let prop1 = '';
-      let prop2 = '';
-   
-     if (arr.includes('*') || arr.includes('/')) { // Что бы расставить приоритеты сначало будем умножать и делить
+      if (arr.includes('*') || arr.includes('/')) { // Что бы расставить приоритеты сначало будем умножать и делить
           prop1 = '*';
           prop2 = '/';
-      return insertResult(arr, prop1, prop2);// вынес группировку и цикл в отдельную функцию, что бы не было Don't repeat youself
-         
+          result = insertResult(arr, prop1, prop2);// вынес группировку и цикл в отдельную функцию, что бы не было Don't repeat youself
+         console.log(result);
       } else  {
           prop1 = '+';    // после деления и умнож. будем искать действия со сложением и вычет.
           prop2 = '-';      
-      return insertResult(arr, prop1, prop2);
-          
+          result = insertResult(arr, prop1, prop2);
+          console.log(result);
       } 
-      
+
+      if (arr.length === 1) { // Проверяем полученные выше результат.Если в вернувшемся массиве одно число,то ответ очевиден
+       return result = arr[0];
+         } else {  // если там есть еще какие-то выражения, то вызовем опять функцию рекурсивно
+            return calculator(arr);
+         }
+     
+   
+   }(arr)
+
 }
+ 
+console.log(miniCalculator(str));
 
-
+// Функция принимает массив и  знаки: либо '//' либо '+-'.Ищет знак и вырезает 
+// фрагмент вида ['2','+','2'] что б передать в функцию calkResult(arr), которая умеет
+// считать такие фрагменты и получив результат вставляет назад в массив и возращаем его
    function insertResult(arr, prop1, prop2) {
-      
-      let result = 0;
          for (let i=0; i<arr.length; i++) {
             if ((arr[i] === prop1 || arr[i] === prop2) && arr[i + 1] == '-') { // если в массиве есть унарный минус
-                const minus = arr.splice(i + 1, 1);  
-                const value1 = arr.splice(i - 1, 3);
-                const resp1 = calkResult(value1); 
-                 
-                if (resp1 > 0) {  // проверим какое число получилось после вычислений
-                   arr.splice(i - 1, 0, minus[0]+resp1); //если полож,то вернем обратно минус
-                   
-                 
+                  const value = arr.splice(i + 1, 1);   // то вырежем его и присвоим к результату если он положительный 
+                  const value1 = arr.splice(i - 1, 3);  // если отрицательный то '-' и '-' даст + и ничего не нужно будет присваивать
+                  const resp1 = calkResult(value1);
+                  if (resp1 > 0) {
+                  return arr.splice(i - 1, 0, value[0]+resp1); 
                   } else {
-                  const resp1Abs = Math.abs(resp1);// если отриц, то минус на минус даст плюс, сделаем результат положит.
-                   arr.splice(i - 1, 0, resp1Abs); 
-                  
+                  const resp1Abs = Math.abs(resp1);
+                  return arr.splice(i - 1, 0, resp1Abs); 
                   }
             }
 
-            if (arr[i] === prop1 || arr[i] === prop2) {  // взависимости от знака вырезаим выражения и вычисляем их,результат вставляем обратно
+            if (arr[i] === prop1 || arr[i] === prop2) {
                   const value2 = arr.splice(i - 1, 3);
                   const resp2 = calkResult(value2);
-                  arr.splice(i - 1, 0, resp2);
+                  return arr.splice(i - 1, 0, resp2);
             } 
-                  
          }
-            if (arr.length === 1) { // вернем результат , если вычислять больше нечего
-                  result = arr[0];
-               } else if (arr.length === 2) {  
-                  alert('Что-то пошло не так!');
-                  return;
-               } else {
-                  return checkProp(arr); // иначе вызовем фун-ю рекурсивно
-               }
-      return result;          
    }
      
 // Функция принимает массив вида ['2','+','2'] и взращает результат вычисления
@@ -196,7 +175,7 @@ function checkProp(arr) {
               result = Number(arr[i - 1]) - Number(arr[i + 1]);
             } 
          }
-          
+          console.log(result)
           return result;
       }
 

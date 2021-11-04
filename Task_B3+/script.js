@@ -2,7 +2,7 @@
 
 //Функция работает со строкой и группирует полож числа,отриц.,дробные и т.д и складывает в массив
 //Можно было бы заморочится и еще больше написать вариантов, но функция итак громоздская и лучше,наверное, регулярками такое делать
-const str = '-(3+5)/2';
+
 function numberSort(str) {
    const numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
    const mark = ['+', '-', '*', '/','.',')','('];
@@ -83,7 +83,13 @@ return  function calculator(arr) {
     let index1 = 0;
     let index2 = 0;
     let answer = 0;
+    let minus = [];
+
+    if (arr[0] === '-') { // если перед скобками стоит первым элементом минус
+      minus = arr.splice(0, 1);// то вырежем его и положим в пустой массив
        
+    }
+        
    for (let i = 0; i < arr.length; i++) { // сначало работаем со значениями в скобках
       if (arr[i] === '(') {
          index1 = i;            
@@ -101,8 +107,8 @@ return  function calculator(arr) {
             const responce2 =  calkResult(valueBrackets);
              arr.splice(index1, 0, responce2); //результат вставляем обратно в массив
                                       
-         } else if (valueBrackets.length > 3) { // если в скобках много вских операций, то передадим все в фун-ю checkProp
-            const responce3 = checkProp(valueBrackets);      
+         } else if (valueBrackets.length > 3) { // если в скобках много вских операций, то передадим все в фун-ю checkSign
+            const responce3 = checkSign(valueBrackets);      
             arr.splice(index1, 0, responce3); //результат вставляем обратно в массив 
             
          }
@@ -113,10 +119,14 @@ return  function calculator(arr) {
       }   
      
    }   
+     if (minus.length !== 0) {
+        arr[0] = minus[0]+arr[0];// вернем знак минус, если он был в перед скобками
+     } 
+   
      if (arr.length === 1) { // проверим что осталось с массивом после того как разобрались со скобками
         answer = arr[0]; // вернем ответ
      } else {
-        answer = checkProp(arr); // если еще есть операции, то передаем в все в фун-ю checkProp(arr)
+        answer = checkSign(arr); // если еще есть операции, то передаем в все в фун-ю checkSign(arr)
      }
      return answer;
  }(arr)
@@ -125,7 +135,7 @@ return  function calculator(arr) {
  
 //console.log(miniCalculator(str));
 
-function checkProp(arr) {
+function checkSign(arr) {
       let prop1 = '';
       let prop2 = '';
    
@@ -154,7 +164,7 @@ function checkProp(arr) {
                 const resp1 = calkResult(value1); 
                  
                 if (resp1 > 0) {  // проверим какое число получилось после вычислений
-                   arr.splice(i - 1, 0, minus[0]+resp1); //если полож,то вернем обратно минус
+                   arr.splice(i - 1, 0, minus[0]+resp1); //если положительное,то вернем обратно минус
                    
                  
                   } else {
@@ -175,9 +185,9 @@ function checkProp(arr) {
                   result = arr[0];
                } else if (arr.length === 2) {  
                   alert('Что-то пошло не так!');
-                  return;
+                  return null;
                } else {
-                  return checkProp(arr); // иначе вызовем фун-ю рекурсивно
+                  return checkSign(arr); // иначе вызовем фун-ю рекурсивно
                }
       return result;          
    }

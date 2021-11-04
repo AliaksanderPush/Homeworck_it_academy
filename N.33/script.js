@@ -9,7 +9,7 @@
          hoursArrow = clock.querySelector('.hour'),     
          minutsArrow = clock.querySelector('.minut'),
          secondsArrow = clock.querySelector('.second'),
-        electClock = clock.querySelector('#el_clock'); 
+         electClock = clock.querySelector('#el_clock'); 
   
    const sizeNumber = radius => radius/4.5;// фун-я для расчета размера цифр взависимости от диаметра часов 
    const radiusNumber = (radius, sizeNumbers) => radius - sizeNumbers; // радиус окружности на которой распологаются кружки для цифр
@@ -113,7 +113,7 @@
       electClock.classList.remove('hide');
       electClock.classList.add('el_clock');
       electClock.style.zIndex = '3';
-       
+      
    }
    
    
@@ -127,13 +127,14 @@
       const second = data.getSeconds()*deg;
 
    electClock.textContent = data.toLocaleTimeString();
-
+   console.log(electClock.textContent)
+   
     hoursArrow.style.transform = `rotateZ(${hours + (minuts/hour)}deg)`; 
     minutsArrow.style.transform = `rotateZ(${minuts}deg)`;
     secondsArrow.style.transform = `rotateZ(${second}deg)`;
-    setInterval(getTime);
-   }   
-
+   }
+   setInterval(getTime,1000);
+        
   }());
 
 

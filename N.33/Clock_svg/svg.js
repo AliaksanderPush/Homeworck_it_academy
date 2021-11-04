@@ -50,7 +50,7 @@
       circle.setAttribute("cx", radiusClock);
       circle.setAttribute("cy", radiusClock);
       circle.setAttribute("r", radiusClock);
-      circle.setAttribute("fill", "#fce56a");
+      circle.setAttribute("fill", "#e2c41a");
       clock.append(circle);
       
       
@@ -142,11 +142,12 @@
       const second = data.getSeconds()*deg;
 
     electClock.textContent = data.toLocaleTimeString();
+    console.log(electClock.textContent);
 
     hoursArrow.style.transform = `rotateZ(${hours + (minuts/hour)}deg)`; 
     minutsArrow.style.transform = `rotateZ(${minuts}deg)`;
     secondsArrow.style.transform = `rotateZ(${second}deg)`;
-    setInterval(getTime);
+    
    }   
-
+   setInterval(getTime,1000);
   }());

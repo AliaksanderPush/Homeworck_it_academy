@@ -1,0 +1,65 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.wrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 800px;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+}
+.header {
+  width: 425px;
+  height: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.field {
+  position: relative;
+  border: 2px solid black;
+  background-color: rgb(243, 205, 171);
+}
+.total_score {
+  width: 50px;
+}
+.total_score span {
+  font-size: 30px;
+}
+.btn {
+  width: 100px;
+  height: 30px;
+  font-size: 14px;
+  background-color: rgb(126, 126, 247);
+  color: white;
+  border-radius: 4px;
+}
+.btn:hover {
+  background-color: rgb(59, 236, 43);
+  transition: 0.3s;
+}
+.ball {
+  position: absolute;
+  background-color: red;
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.left_racket {
+  position: absolute;
+  background-color: green;
+}
+.right_racket {
+  position: absolute;
+  background-color: blue;
+}

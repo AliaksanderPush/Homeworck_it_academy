@@ -12,12 +12,6 @@
   align-items: center;
 }
 
-.container {
-  width: 800px;
-  height: 600px;
-  display: flex;
-  flex-direction: column;
-}
 .header {
   width: 425px;
   height: 100px;
@@ -27,7 +21,6 @@
 }
 .field {
   position: relative;
-  border: 2px solid black;
   background-color: rgb(243, 205, 171);
 }
 .total_score {
@@ -52,7 +45,7 @@
   position: absolute;
   background-color: red;
   border-radius: 50%;
-  z-index: 2;
+  z-index: 1;
 }
 
 .left_racket {

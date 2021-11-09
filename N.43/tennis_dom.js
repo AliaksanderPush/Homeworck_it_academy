@@ -116,6 +116,7 @@ let game = {
    playGame() {
       console.log('this playgame')
       if(this.parametrs.btn) {
+         this.preStart();
          if(this.keys.ArrowUp && this.parametrs.right > 0) {
             this.parametrs.right -=this.parametrs.racketSpeed;
          }

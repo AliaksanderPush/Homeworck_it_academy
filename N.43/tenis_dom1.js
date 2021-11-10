@@ -1,27 +1,30 @@
 "use strict";
 
-    var field = document.querySelector(".field");
-    var ball = document.querySelector(".ball");
-    var btn = document.querySelector(".btn");
-    var rightRacket = document.querySelector(".right_racket");
-    var leftRacket = document.querySelector(".left_racket");
+    const field = document.querySelector(".field");
+    const ball = document.querySelector(".ball");
+    const btn = document.querySelector(".btn");
+    const rightRacket = document.querySelector(".right_racket");
+    const leftRacket = document.querySelector(".left_racket");
 
-    const fieldW = 1000; //ширина игровой арены
-    const fieldH = 600; //высота игровой арены
-    const ballRadius = 25; //радиус шара
+    const fieldW = 1000; //ширина поля
+    const fieldH = 600; //высота поля
+    const ballRadius = 25; //радиус мяча
     const racketWidth = 20; //ширина ракеток
-    const racketHeight = 150; //высотка ракеток
-    const scoreLeft = 0;
-    const scoreRight = 0;
+    const racketHeight = 150; //высота ракеток
+    let scoreLeft = 0;
+    let scoreRight = 0;
 
-    var setting = {
+    let setting = {
         btn: false,
-        ballSX: 2, //скорость мяча по X
-        ballSY: 2, //скорость мяча по Y
-        racketSpeed: 3 //скорость ракеток
+        ballSX: 3, //скорость мяча по X
+        ballSY: 3, //скорость мяча по Y
+        racketSpeed: 3, //скорость ракеток
+        right:null,
+        left:null
+
     };
 
-    var keys = {
+    let keys = {
         ArrowUp: false,
         ArrowDown: false,
         Shift: false,
@@ -30,21 +33,21 @@
 
     
 
-    var ballProp = {
+    let ballProp = {
         width: ballRadius * 2,
         height: ballRadius * 2,
-        ballX:  null,
-        ballY:  null,
+        ballX:  fieldW / 2 - ballRadius,
+        ballY:  fieldH / 2 - ballRadius
        
     };
 
-    var leftRacketProp = {
+    let leftRacketProp = {
         leftRacketX: 0, 
         leftRacketY: 20 
        
     };
 
-    var rightRacketProp = {
+    let rightRacketProp = {
         rightRacketX: 0,
         rightRacketY: 20
        
@@ -90,16 +93,16 @@
     function playGame(){
         if(setting.btn){
             prevLoad();
-            if(keys.ArrowUp && setting.right > 0) {
+            if (keys.ArrowUp && setting.right > 0) {
                 setting.right -= setting.racketSpeed;
             }
-            if(keys.ArrowDown && setting.right < (fieldH - rightRacket.offsetHeight)){
+            if (keys.ArrowDown && setting.right < (fieldH - rightRacket.offsetHeight)){
                 setting.right += setting.racketSpeed;
             }
-            if(keys.Shift && setting.left > 0) {
+            if (keys.Shift && setting.left > 0) {
                 setting.left -= setting.racketSpeed;
             }
-            if(keys.Control && setting.left < (fieldH - leftRacket.offsetHeight)){
+            if (keys.Control && setting.left < (fieldH - leftRacket.offsetHeight)){
                 setting.left += setting.racketSpeed;
             }
             rightRacket.style.top = setting.right + "px";
@@ -107,38 +110,37 @@
 
             ballProp.ballX += setting.ballSX;
 			
-        //касания правой стенки
-            if(ballProp.ballX + ballProp.width >= fieldW){
+        //когда гол справа
+            if (ballProp.ballX + ballProp.width >= fieldW){
                 ballProp.ballX = fieldW -  ballProp.width;
                 setting.btn = false;
-            //  (function(){
-                    let scoreRight = document.querySelector(".right_player");
-                    scoreRight.innerHTML = ++scoreRight.innerHTML;
-            //    }());
+                 document.querySelector(".right_player").innerHTML = ++scoreRight;
+                    
+           
             }
         //касается правой ракетки
-            if(ballProp.ballX + ballProp.width >= fieldW - racketWidth && ball.offsetTop + ballRadius >= rightRacket.offsetTop && ball.offsetTop + ballRadius <= rightRacket.offsetTop + racketHeight){
+            if (ballProp.ballX + ballProp.width >= fieldW - racketWidth && ball.offsetTop + ballRadius >= rightRacket.offsetTop && ball.offsetTop + ballRadius <= rightRacket.offsetTop + racketHeight){
                 setting.ballSX =-setting.ballSX;
             }
-        //касание левой стенки
-            if(ballProp.ballX < 0){
+        //когда гол слева
+            if (ballProp.ballX < 0){
                 ballProp.ballX = 0;
                 setting.btn = false;
-                document.querySelector(".left_player").innerHTML = ++scoreLeft.innerHTML;
+                document.querySelector(".left_player").innerHTML = ++scoreLeft;
             
             }
         //касается левой ракетки
-            if(ballProp.ballX <= racketWidth && ball.offsetTop + ballRadius >= leftRacket.offsetTop && ball.offsetTop + ballRadius <= leftRacket.offsetTop + racketHeight){
+            if (ballProp.ballX <= racketWidth && ball.offsetTop + ballRadius >= leftRacket.offsetTop && ball.offsetTop + ballRadius <= leftRacket.offsetTop + racketHeight){
                 setting.ballSX =-setting.ballSX;
             }
         //верхняя и нижняя границы поля
             ballProp.ballY += setting.ballSY;
 			
-            if(ballProp.ballY + ballProp.height > fieldH){
+            if (ballProp.ballY + ballProp.height > fieldH){
                 setting.ballSY =- setting.ballSY;
                 ballProp.ballY = fieldH - ballProp.height;
             }
-            if(ballProp.ballY < 0){
+            if (ballProp.ballY < 0){
                 setting.ballSY =- setting.ballSY;
                 ballProp.ballY = 0;
             }

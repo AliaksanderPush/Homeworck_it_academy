@@ -13,7 +13,7 @@
 }
 
 .header {
-  width: 425px;
+  width: 500px;
   height: 100px;
   display: flex;
   justify-content: space-between;
@@ -27,7 +27,7 @@
   width: 50px;
 }
 .total_score span {
-  font-size: 30px;
+  font-size: 25px;
 }
 .btn {
   width: 100px;

@@ -2,14 +2,13 @@
 
     const field = document.querySelector("#canvas");
     const context = field.getContext("2d");
-    const ball = document.querySelector(".ball");
     const btn = document.querySelector(".btn");
     
     const fieldW = 1000; //ширина поля
     const fieldH = 600; //высота поля
     const ballRadius = 25; //радиус мяча
     const racketWidth = 20; //ширина ракеток
-    const racketHeight = 150; //высота ракеток
+    const racketfieldH = 150; //высота ракеток
     let scoreLeft = 0;
     let scoreRight = 0;
 
@@ -35,39 +34,39 @@
     let ballProp = {
         width: ballRadius * 2,
         height: ballRadius * 2,
-        ballX:  field.getBoundingClientRect().width/2,
-        ballY:  field.getBoundingClientRect().height/2 - 15,
+        ballX:  field.getBoundingClientRect().width/2 - ballRadius ,
+        ballY:  field.getBoundingClientRect().fieldH/2 - ballRadius,
        
     };
 
     let leftRacketProp = {
-        leftRacketX: 0.5, 
-        leftRacketY: field.getBoundingClientRect().height/2 - 60,
+        leftRacketX: 0, 
+        leftracketY: 50
        
     };
 
     let rightRacketProp = {
-        rightRacketX: field.getBoundingClientRect().width - 10,
-        rightRacketY: field.getBoundingClientRect().height/2 - 20
+        rightRacketX: field.getBoundingClientRect().width - racketWidth,
+        rightRacketY: 150
        
     };
 
     
 
    function prevLoad() {
-
+    // создаем мяч
     context.beginPath();
-    context.fillStyle = "#F02137";
+    context.fillStyle = "red";
     context.arc(ballProp.ballX, ballProp.ballY, ballRadius, 0, Math.PI*2, false);
     context.fill(); 
-    
+    //создаем левую ракетку
     context.beginPath();
-    context.fillStyle = "#09AA57";
-    context.fillRect(leftRacketProp.leftRacketX, leftRacketProp.leftRacketY, racketWidth, racketHeight);
-
+    context.fillStyle = "rgb(59, 236, 43)";
+    context.fillRect(leftRacketProp.leftRacketX, leftRacketProp.leftracketY, racketWidth, racketfieldH);
+    //создаем правую ракетку
     context.beginPath();
-    context.fillStyle = "#191497";
-    context.fillRect(rightRacketProp.rightRacketX, rightRacketProp.rightRacketY, racketHeight, racketWidth);
+    context.fillStyle = "rgb(126, 126, 247)";
+    context.fillRect(rightRacketProp.rightRacketX, rightRacketProp.rightRacketY, racketWidth, racketfieldH);
 
     btn.addEventListener("click", startGame);
     document.addEventListener("keydown", startRun);
@@ -76,48 +75,59 @@
    }
 
 
-    function startGame(){
-        ballProp.ballX = field.getBoundingClientRect().width/2,
-        ballProp.ballY = field.getBoundingClientRect().height/2 - 15, 
-        console.log(rightRacketProp)
-       // setting.right = rightRacket.offsetTop;
-      //  setting.left = leftRacket.offsetTop;
+    function startGame() {
+        ballProp.ballX = field.getBoundingClientRect().width/2;
+        ballProp.ballY = field.getBoundingClientRect().height/2 - 15; 
+        setting.right = field.getBoundingClientRect().top;
+        setting.left = field.getBoundingClientRect().top;
         setting.btn = true;
+        console.log(setting.right)
+        console.log(setting.left)
         requestAnimationFrame(playGame);
     }
 
-    function drawfield() {
-      const width = 700,
-            height = 400,
-            fieldX = 0.5,
-            fieldY = 0.5;
-    
+    function drawField() {
+        const fieldX = 0,
+              fieldY = 0
+        
         context.strokeStyle = "black";
-        context.fillStyle = "#F0EE7E";
-        context.fillRect(fieldX, fieldY, width, height);
-        context.strokeRect(fieldX, fieldY, width-1, height-1);
+        context.fillStyle = "rgb(243, 205, 171)";
+        context.fillRect(fieldX, fieldY, fieldW, fieldH);
+        context.strokeRect(fieldX, fieldY, fieldW, fieldH);
     }
 
 
 
-    function playGame(){
+    function playGame() {
         if(setting.btn){
-            drawfield();
+            drawField();
             prevLoad();
             if (keys.ArrowUp && setting.right > 0) {
-                setting.right -= setting.racketSpeed;
+               rightRacketProp.rightRacketY -= 3;
+            if (rightRacketProp.rightRacketY <= 0) {
+                rightRacketProp.rightRacketY = 0;
             }
-            if (keys.ArrowDown && setting.right < (fieldH - racketHeight)){
-                setting.right += setting.racketSpeed;
+            }
+            if (keys.ArrowDown && setting.right < (fieldH - racketfieldH)){
+                 rightRacketProp.rightRacketY += 3;
+            if (rightRacketProp.rightRacketY + racketfieldH > fieldH) {
+                rightRacketProp.rightRacketY = fieldH - racketfieldH;
+            }
             }
             if (keys.Shift && setting.left > 0) {
-                setting.left -= setting.racketSpeed;
+                leftRacketProp.leftracketY -= 3;
+            if (leftRacketProp.leftracketY <= 0) {
+                leftRacketProp.leftracketY = 0;
             }
-            if (keys.Control && setting.left < (fieldH - racketHeight)){
-                setting.left += setting.racketSpeed;
             }
-          //  rightRacket.style.top = setting.right + "px";
-          //  leftRacket.style.top = setting.left + "px";
+            if (keys.Control && setting.left < (fieldH - racketfieldH)){
+               leftRacketProp.leftracketY += 3;
+            if (leftRacketProp.leftracketY + racketfieldH > fieldH) {
+                leftRacketProp.leftracketY = fieldH - racketfieldH;
+            }
+            }
+            //rightRacket.style.top = setting.right;
+            //leftRacket.style.top = setting.left;
 
             ballProp.ballX += setting.ballSX;
 			
@@ -130,9 +140,15 @@
            
             }
         //касается правой ракетки
-            if (ballProp.ballX + ballProp.width >= fieldW - racketWidth && ball.offsetTop + ballRadius >= rightRacket.offsetTop && ball.offsetTop + ballRadius <= rightRacket.offsetTop + racketHeight){
-                setting.ballSX =-setting.ballSX;
+          
+            if (ballProp.ballX + ballRadius >= rightRacketProp.rightRacketX) {
+                if (ballProp.ballY >= rightRacketProp.rightRacketY + racketHeight) {
+                  setting.ballSX =-setting.ballSX;
+                }
             }
+                 
+                
+            
         //когда гол слева
             if (ballProp.ballX < 0){
                 ballProp.ballX = 0;
@@ -141,19 +157,22 @@
             
             }
         //касается левой ракетки
-            if (ballProp.ballX <= racketWidth && ball.offsetTop + ballRadius >= leftRacket.offsetTop && ball.offsetTop + ballRadius <= leftRacket.offsetTop + racketHeight){
-                setting.ballSX =-setting.ballSX;
+            if (ballProp.ballX - ballRadius <= leftRacketProp.leftRacketX + racketWidth){
+                if (ballProp.ballY + ballRadius >= leftRacketProp.leftracketY && ballProp.ballY + ballRadius <= leftRacketProp.leftracketY + racketHeight) {
+                    setting.ballSX =-setting.ballSX;
+                }
+                
             }
         //верхняя и нижняя границы поля
             ballProp.ballY += setting.ballSY;
 			
-            if (ballProp.ballY + ballProp.height > fieldH){
+            if (ballProp.ballY + ballRadius > fieldH){
                 setting.ballSY =- setting.ballSY;
-                ballProp.ballY = fieldH - ballProp.height;
+             
             }
-            if (ballProp.ballY < 0){
+            if (ballProp.ballY - ballRadius< 0){
                 setting.ballSY =- setting.ballSY;
-                ballProp.ballY = 0;
+               
             }
             requestAnimationFrame(playGame);
         }
@@ -170,7 +189,8 @@
         EO.preventDefault();
        keys[EO.key] = false;
     }
+    
     prevLoad();
-    drawfield() 
+    drawField() 
     
    

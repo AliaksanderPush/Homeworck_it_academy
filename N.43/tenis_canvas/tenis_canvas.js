@@ -76,13 +76,14 @@
 
 
     function startGame() {
+        console.log(setting)
         ballProp.ballX = field.getBoundingClientRect().width/2;
         ballProp.ballY = field.getBoundingClientRect().height/2 - 15; 
         setting.right = field.getBoundingClientRect().top;
         setting.left = field.getBoundingClientRect().top;
         setting.btn = true;
-        console.log(setting.right)
-        console.log(setting.left)
+        
+        console.log(setting.ballSX)
         requestAnimationFrame(playGame);
     }
 
@@ -103,25 +104,25 @@
             drawField();
             prevLoad();
             if (keys.ArrowUp && setting.right > 0) {
-               rightRacketProp.rightRacketY -= 3;
+               rightRacketProp.rightRacketY -= setting.racketSpeed;
             if (rightRacketProp.rightRacketY <= 0) {
                 rightRacketProp.rightRacketY = 0;
             }
             }
             if (keys.ArrowDown && setting.right < (fieldH - racketfieldH)){
-                 rightRacketProp.rightRacketY += 3;
+                 rightRacketProp.rightRacketY += setting.racketSpeed;
             if (rightRacketProp.rightRacketY + racketfieldH > fieldH) {
                 rightRacketProp.rightRacketY = fieldH - racketfieldH;
             }
             }
             if (keys.Shift && setting.left > 0) {
-                leftRacketProp.leftracketY -= 3;
+                leftRacketProp.leftracketY -= setting.racketSpeed;
             if (leftRacketProp.leftracketY <= 0) {
                 leftRacketProp.leftracketY = 0;
             }
             }
             if (keys.Control && setting.left < (fieldH - racketfieldH)){
-               leftRacketProp.leftracketY += 3;
+               leftRacketProp.leftracketY += setting.racketSpeed;
             if (leftRacketProp.leftracketY + racketfieldH > fieldH) {
                 leftRacketProp.leftracketY = fieldH - racketfieldH;
             }
@@ -132,45 +133,45 @@
             ballProp.ballX += setting.ballSX;
 			
         //когда гол справа
-            if (ballProp.ballX + ballProp.width >= fieldW){
+            if (ballProp.ballX + ballRadius >= fieldW){
                 ballProp.ballX = fieldW -  ballProp.width;
                 setting.btn = false;
-                 document.querySelector(".right_player").innerHTML = ++scoreRight;
+                document.querySelector(".right_player").innerHTML = ++scoreRight;
                     
            
             }
-        //касается правой ракетки
+        //касается ПРАВОЙ ракетки
           
-            if (ballProp.ballX + ballRadius >= rightRacketProp.rightRacketX) {
-                if (ballProp.ballY >= rightRacketProp.rightRacketY + racketHeight) {
-                  setting.ballSX =-setting.ballSX;
-                }
+            if (ballProp.ballX + ballRadius >= fieldW - racketWidth && 
+                ballProp.ballY  >= rightRacketProp.rightRacketY &&
+                ballProp.ballY  <= rightRacketProp.rightRacketY + racketfieldH) {
+                setting.ballSX = -setting.ballSX;
             }
                  
                 
             
         //когда гол слева
-            if (ballProp.ballX < 0){
+            if (ballProp.ballX - ballRadius < 0){
                 ballProp.ballX = 0;
                 setting.btn = false;
                 document.querySelector(".left_player").innerHTML = ++scoreLeft;
             
             }
-        //касается левой ракетки
-            if (ballProp.ballX - ballRadius <= leftRacketProp.leftRacketX + racketWidth){
-                if (ballProp.ballY + ballRadius >= leftRacketProp.leftracketY && ballProp.ballY + ballRadius <= leftRacketProp.leftracketY + racketHeight) {
-                    setting.ballSX =-setting.ballSX;
-                }
+        //касается ЛЕВОЙ ракетки
+            if (ballProp.ballX - ballRadius <= racketWidth && 
+                ballProp.ballY + ballRadius >= leftRacketProp.leftracketY && 
+                ballProp.ballY + ballRadius<= leftRacketProp.leftracketY + racketfieldH) {
+                   setting.ballSX = -setting.ballSX;
                 
             }
         //верхняя и нижняя границы поля
             ballProp.ballY += setting.ballSY;
 			
-            if (ballProp.ballY + ballRadius > fieldH){
+            if (ballProp.ballY + ballRadius > fieldH) {
                 setting.ballSY =- setting.ballSY;
              
             }
-            if (ballProp.ballY - ballRadius< 0){
+            if (ballProp.ballY - ballRadius< 0) {
                 setting.ballSY =- setting.ballSY;
                
             }

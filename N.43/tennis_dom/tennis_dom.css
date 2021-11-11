@@ -19,7 +19,10 @@
   justify-content: space-between;
   align-items: center;
 }
-
+.field {
+  position: relative;
+  background-color: rgb(243, 205, 171);
+}
 .total_score {
   width: 50px;
 }
@@ -37,4 +40,19 @@
 .btn:hover {
   background-color: rgb(59, 236, 43);
   transition: 0.3s;
+}
+.ball {
+  position: absolute;
+  background-color: red;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.left_racket {
+  position: absolute;
+  background-color: rgb(19, 196, 19);
+}
+.right_racket {
+  position: absolute;
+  background-color: blue;
 }

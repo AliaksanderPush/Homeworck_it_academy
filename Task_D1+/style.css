@@ -1,18 +1,21 @@
 .container {
-  position: relative;
+ position: relative;
   display: inline-block;
   cursor: move;
   margin: 0 auto;
+ 
+}
+
+.container:hover img,
+.container:active img {
+    outline: 2px dashed rgba(222,60,80,.9);
 }
 
 .item {
-  position: absolute;
-  width: 480px;
-  height: 270px;
   display: block;
 }
 .resizer {
-  position: absolute;
+ position: absolute;
   width: 10px;
   height: 10px;
   background-color: brown;
@@ -22,6 +25,16 @@
   top: -1px;
   left: -1px;
   cursor: se-resize;
+}
+.topMidle {
+  top: -1px;
+  left: 200px;
+  cursor: s-resize;
+}
+.bottomMidle {
+  bottom: -1px;
+  left: 200px;
+  cursor: s-resize;
 }
 .topRight {
   top: -1px;
@@ -37,4 +50,8 @@
   bottom: -1px;
   left: -1px;
   cursor: ne-resize;
+  
+}
+.content {
+  position: relative;
 }

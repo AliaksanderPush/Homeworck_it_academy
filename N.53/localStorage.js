@@ -1,7 +1,9 @@
-let drinkStorage = new LocalStorageClass();
+const drinkStorage = new LocalStorageClass();
+const dishStorage = new LocalStorageClass();
+
  
- document.querySelector('.btn1').addEventListener('mouseup', drinckInfo);
- document.querySelector('.btn5').addEventListener('mouseup', drinckInfo);
+ document.querySelector('.btn1').addEventListener('click', drinckInfo);
+ document.querySelector('.btn5').addEventListener('click', drinckInfo);
 
  document.querySelector('.btn2').addEventListener('click', getDrinckInfo);
  document.querySelector('.btn6').addEventListener('click', getDrinckInfo);
@@ -53,25 +55,22 @@ let objDish = {
     }
     let alc = confirm(`${elem.type} или нет?`,'');
     let rec = prompt(`Напишите  рецепт его приготовления`,'');
-    while (!rec) {
-       rec = prompt(`
-        Вы не написали рецепт!!!
-        Напишите рецепт его приготовления`,'');
-    }
-    const value = {};
-    value[drinck] = {alcoholic:alc, recept:rec}; 
-        if (typeProd) {
-       const key =  "lsDrink";
-       drinkStorage.addValue(key, value );
-     } else {
-      const key = "lsDish"; 
-      drinkStorage.addValue(key, value); 
-     }
-     //  drinkStorage.addStore();
+      while (!rec) {
+         rec = prompt(`
+         Вы не написали рецепт!!!
+         Напишите рецепт его приготовления`,'');
+      }
+      if (typeProd) {
+       drinkStorage.addValue(drinck, {alcoholic:alc, recept:rec},"lsDrink");
+       drinkStorage.addStore("lsDrink");
+       } else {
+       dishStorage.addValue(drinck, {alcoholic:alc, recept:rec},"lsDish");   
+       dishStorage.addStore("lsDish");
+       }
+        
        alert('Данные внесены успешно!');
-       
-    
- }
+ }   
+ 
 
  function getDrinckInfo() {
    let elem = null;
@@ -94,7 +93,7 @@ let objDish = {
     if (typeProd) {
       getInfoDrinck = drinkStorage.getValue("lsDrink", getInfo);
     } else {
-      getInfoDrinck = drinkStorage.getValue("lsDish", getInfo);
+      getInfoDrinck = dishStorage.getValue("lsDish", getInfo);
     }
  
    if (getInfoDrinck) {
@@ -114,7 +113,8 @@ let objDish = {
       let elem = null;
       let typeProd = false;
       let key = '';
-       if (this.classList.contains('btn1')) {
+      let res = false;
+       if (this.classList.contains('btn3')) {
           elem = objDrink;
           typeProd = true;
        }  else {
@@ -127,9 +127,16 @@ let objDish = {
          Вы не ввели данные!!!
          Введите ${elem.name} который хотите удалить`,''); 
       }
-      typeProd ? key = "lsDrink" : key = "lsDish"
-
-      if (drinkStorage.deleteValue(key, removeInfoDrinck)) {
+      
+      if (typeProd) {
+        key = "lsDrink"; 
+        res = drinkStorage.deleteValue(key, removeInfoDrinck);
+      } else {
+        key = "lsDish";
+        res = dishStorage.deleteValue(key, removeInfoDrinck);
+      }
+   
+      if (res) {
          alert( `${elem.prod2} успешно`); 
       } else {
          alert(`Такого ${elem.prod3}  в базе данных нет`)
@@ -137,10 +144,24 @@ let objDish = {
    }
  
  function getDrinckInfoAll() {
-   let elem = null;
-   this.classList.contains('btn4') ? elem = objDrink : elem = objDish; 
-
-   let drinckAll = drinkStorage.getKeys();
+  let elem = null;
+  let typeProd = false;
+  let key = '';
+  let drinckAll = [];
+   if (this.classList.contains('btn4')) {
+      elem = objDrink;
+      typeProd = true;
+   }  else {
+      elem = objDish; 
+   }
+    if (typeProd) {
+       key = "lsDrink" 
+       drinckAll = drinkStorage.getKeys(key);
+    } else {
+       key = "lsDish"
+       drinckAll = dishStorage.getKeys(key);
+    }
+      
     if (drinckAll.length !== 0) {
       drinckAll = drinckAll.join(',');
       alert(drinckAll)

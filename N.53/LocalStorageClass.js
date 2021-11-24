@@ -1,54 +1,63 @@
 "use strict";
 class LocalStorageClass  {
-  constructor(lsKeyName) {
-    this.storage = {};
-    
-   
-      if (lsKeyName == "lsDish") {
-       let  myObject = JSON.parse(localStorage.lsDish);
-        this.storage = myObject;
-      }
-      if (lsKeyName == "lsDrink") {
-        let  myObject = JSON.parse(localStorage.lsDrink);
-        this.storage = myObject;
-      }
-  
-   
+  constructor() {
+    this.drinkStorage = {};
+    this.dishStorage = {};
+       
   }
-   addStore(lsKeyName) {
-    localStorage.setItem(lsKeyName, JSON.stringify(this.storage));
-   }
-     
-   addValue(key, value) {
-     this.storage[key] = value ;
-     console.log(this.storage);
-     
-   }  
+  getProduct(lsKeyName) {
+    const prod = window.localStorage.getItem(lsKeyName);
+    return JSON.parse(prod);
+  }
 
-   getValue(key , value) {
-     return this.storage[key][value];
-   }
+  setProduct(lsKeyName, storage) {
+    localStorage.setItem(lsKeyName, JSON.stringify(storage));
+  }
 
-   deleteValue(key, value) {
-     if ((key in this.storage)) {
-       for (let elem in this.storage) {
-        for (let item in this.storage[elem]) {
-          if (item === value) {
-            delete this.storage[key]; 
-            return true;
-          } else {
-            return false;
-          }
-        }
-      }
+  addStore(lsKeyName) {
+    if (lsKeyName === "lsDish") {
+      this.setProduct(lsKeyName, this.dishStorage);
     } else {
-       return false;
+      this.setProduct(lsKeyName, this.drinkStorage);
     }
-   }
+    
+  }
+    
+  addValue(key, value, lsKeyName) {
+    if (lsKeyName === "lsDish") {
+      this.dishStorage[key] = value;
+    } else {
+      this.drinkStorage[key] = value;
+    } 
+  }  
 
-    getKeys() {
-      return Object.keys(this.storage);
-     
-   }
+  getValue(lsKeyName, key) {
+    const product = this.getProduct(lsKeyName);
+    for (let item in product) {
+      if (item === key) {
+        return product[item];
+      } else {
+        return false;
+      }
+    }
+  }
+
+
+  deleteValue(lsKeyName, key) {
+    const product = this.getProduct(lsKeyName);
+    if ((key in product)) {
+      delete product[key];
+      this.setProduct(lsKeyName, product);
+      lsKeyName === "lsDish" ? delete this.dishStorage[key]:delete this.drinkStorage[key]
+      return true;
+    } else {
+        return false;
+    }
+  }
+
+  getKeys(lsKeyName) {
+    const prod = this.getProduct(lsKeyName);
+    return Object.keys(prod);
+  }
 
 }

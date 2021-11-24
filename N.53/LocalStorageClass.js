@@ -1,63 +1,49 @@
 "use strict";
 class LocalStorageClass  {
   constructor() {
-    this.drinkStorage = {};
-    this.dishStorage = {};
-       
-  }
-  getProduct(lsKeyName) {
-    const prod = window.localStorage.getItem(lsKeyName);
-    return JSON.parse(prod);
+    this.storage = {};
+  
   }
 
-  setProduct(lsKeyName, storage) {
-    localStorage.setItem(lsKeyName, JSON.stringify(storage));
-  }
-
-  addStore(lsKeyName) {
-    if (lsKeyName === "lsDish") {
-      this.setProduct(lsKeyName, this.dishStorage);
-    } else {
-      this.setProduct(lsKeyName, this.drinkStorage);
-    }
+  getstore(lsKeyName) {
+  //  if (localStorage.getItem(lsKeyName)) {
+       const prod= window.localStorage.getItem(lsKeyName);
+       const obj = JSON.parse(prod);
+        for (let item in obj) {
+          this.storage[item] = obj[item]; 
+        }
+   // }
     
   }
+ 
+  setStore(lsKeyName) {
+     localStorage.setItem(lsKeyName, JSON.stringify(this.storage));
+  }
     
-  addValue(key, value, lsKeyName) {
-    if (lsKeyName === "lsDish") {
-      this.dishStorage[key] = value;
-    } else {
-      this.drinkStorage[key] = value;
-    } 
+  addValue(key, value ) {
+      this.storage[key] = value;
   }  
 
   getValue(lsKeyName, key) {
-    const product = this.getProduct(lsKeyName);
-    for (let item in product) {
-      if (item === key) {
-        return product[item];
-      } else {
-        return false;
-      }
-    }
+    this.getstore(lsKeyName);
+    return this.storage[key];
   }
 
 
   deleteValue(lsKeyName, key) {
-    const product = this.getProduct(lsKeyName);
-    if ((key in product)) {
-      delete product[key];
-      this.setProduct(lsKeyName, product);
-      lsKeyName === "lsDish" ? delete this.dishStorage[key]:delete this.drinkStorage[key]
-      return true;
+    this.getstore(lsKeyName);
+   if ((key in this.storage)) {
+       delete this.storage[key];
+       this.setStore(lsKeyName);
+       return true;
     } else {
-        return false;
+       return false;
     }
   }
 
   getKeys(lsKeyName) {
-    const prod = this.getProduct(lsKeyName);
-    return Object.keys(prod);
+    this.getstore(lsKeyName);
+    return Object.keys(this.storage);
   }
 
 }

@@ -1,6 +1,5 @@
 const drinkStorage = new LocalStorageClass();
 const dishStorage = new LocalStorageClass();
-
  
  document.querySelector('.btn1').addEventListener('click', drinckInfo);
  document.querySelector('.btn5').addEventListener('click', drinckInfo);
@@ -40,11 +39,14 @@ let objDish = {
  function drinckInfo() {
   let elem = null;
   let typeProd = false;
+  let lsKeyName = '';
    if (this.classList.contains('btn1')) {
       elem = objDrink;
       typeProd = true;
+      lsKeyName = "lsDrink";
    }  else {
       elem = objDish; 
+      lsKeyName = "lsDish";
    }
   
      let  drinck = prompt(`Введите ${elem.prod} Вы предпочитаете`,'');
@@ -61,11 +63,13 @@ let objDish = {
          Напишите рецепт его приготовления`,'');
       }
       if (typeProd) {
-       drinkStorage.addValue(drinck, {alcoholic:alc, recept:rec},"lsDrink");
-       drinkStorage.addStore("lsDrink");
+       drinkStorage.getstore(lsKeyName);
+       drinkStorage.addValue(drinck, {alcoholic:alc, recept:rec});
+       drinkStorage.setStore(lsKeyName);
        } else {
-       dishStorage.addValue(drinck, {alcoholic:alc, recept:rec},"lsDish");   
-       dishStorage.addStore("lsDish");
+       dishStorage.getstore(lsKeyName);  
+       dishStorage.addValue(drinck, {alcoholic:alc, recept:rec});   
+       dishStorage.setStore(lsKeyName);
        }
         
        alert('Данные внесены успешно!');
@@ -76,11 +80,14 @@ let objDish = {
    let elem = null;
    let typeProd = false;
    let getInfoDrinck = null;
+   let lsKeyName = '';
    if (this.classList.contains('btn2')) {
       elem = objDrink;
       typeProd = true;
+      lsKeyName = "lsDrink";
    }  else {
       elem = objDish; 
+      lsKeyName = "lsDish";
    }
 
     let getInfo = prompt(`Введите ${elem.name} рецепт которого хотите узнать`,''); 
@@ -91,9 +98,9 @@ let objDish = {
     }
     
     if (typeProd) {
-      getInfoDrinck = drinkStorage.getValue("lsDrink", getInfo);
+      getInfoDrinck = drinkStorage.getValue(lsKeyName, getInfo);
     } else {
-      getInfoDrinck = dishStorage.getValue("lsDish", getInfo);
+      getInfoDrinck = dishStorage.getValue(lsKeyName, getInfo);
     }
  
    if (getInfoDrinck) {
@@ -151,15 +158,15 @@ let objDish = {
    if (this.classList.contains('btn4')) {
       elem = objDrink;
       typeProd = true;
+      key = "lsDrink" 
    }  else {
-      elem = objDish; 
+      elem = objDish;
+      key = "lsDish" 
    }
     if (typeProd) {
-       key = "lsDrink" 
-       drinckAll = drinkStorage.getKeys(key);
+      drinckAll = drinkStorage.getKeys(key);
     } else {
-       key = "lsDish"
-       drinckAll = dishStorage.getKeys(key);
+      drinckAll = dishStorage.getKeys(key);
     }
       
     if (drinckAll.length !== 0) {

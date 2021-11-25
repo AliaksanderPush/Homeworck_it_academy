@@ -1,3 +1,6 @@
+
+(function() {
+
 const drinkStorage = new LocalStorageClass();
 const dishStorage = new LocalStorageClass();
  
@@ -13,170 +16,128 @@ const dishStorage = new LocalStorageClass();
  document.querySelector('.btn4').addEventListener('click', getDrinckInfoAll); 
  document.querySelector('.btn8').addEventListener('click', getDrinckInfoAll); 
 
- let objDrink = {
+ let flag = false;
+ 
+ function start(flag)  {
+    if (flag) {
+    return ( 
+  {
    prod : 'напиток, который',
    type : 'Он алкогольный',
    name: 'напиток',
    name2:'напитке',
    prod2: 'Напиток удален',
    prod3: 'напитка',
-   prod4 :'напитков'
-}
-
-let objDish = {
-   prod : 'блюдо, которое',
-   type : 'Оно вегетарианское',
-   name: 'блюдо',
-   name2: 'блюде',
-   prod2: 'Блюдо удалено',
-   prod3: 'блюда',
-   prod4: 'блюд'
-}
-
-
-
+   prod4 :'напитков',
+   lsKeyName: "lsDrink",
+   typeProd: drinkStorage
+   } 
+    )
+    } else {
+      return (
+   {
+      prod : 'блюдо, которое',
+      type : 'Оно вегетарианское',
+      name: 'блюдо',
+      name2: 'блюде',
+      prod2: 'Блюдо удалено',
+      prod3: 'блюда',
+      prod4: 'блюд', 
+      lsKeyName: "lsDish",
+      typeProd: dishStorage
+   } 
+    )
+    }
+ }
+ 
 
  function drinckInfo() {
-  let elem = null;
-  let typeProd = false;
-  let lsKeyName = '';
-   if (this.classList.contains('btn1')) {
-      elem = objDrink;
-      typeProd = true;
-      lsKeyName = "lsDrink";
-   }  else {
-      elem = objDish; 
-      lsKeyName = "lsDish";
-   }
-  
-     let  drinck = prompt(`Введите ${elem.prod} Вы предпочитаете`,'');
+this.classList.contains('btn1') ? flag = true: flag = false
+const elem = start(flag);
+const {prod, type, lsKeyName, typeProd} = elem;
+
+ let  drinck = prompt(`Введите ${prod} Вы предпочитаете`,'');
     while (!drinck) {
       drinck = prompt(`
       Вы не ввели данные!!!! 
-      Введите ${elem.prod} Вы предпочитаете`,''); 
+      Введите ${prod} Вы предпочитаете`,''); 
     }
-    let alc = confirm(`${elem.type} или нет?`,'');
+    let alc = confirm(`${type} или нет?`,'');
     let rec = prompt(`Напишите  рецепт его приготовления`,'');
       while (!rec) {
          rec = prompt(`
          Вы не написали рецепт!!!
          Напишите рецепт его приготовления`,'');
       }
-      if (typeProd) {
-       drinkStorage.getstore(lsKeyName);
-       drinkStorage.addValue(drinck, {alcoholic:alc, recept:rec});
-       drinkStorage.setStore(lsKeyName);
-       } else {
-       dishStorage.getstore(lsKeyName);  
-       dishStorage.addValue(drinck, {alcoholic:alc, recept:rec});   
-       dishStorage.setStore(lsKeyName);
-       }
-        
+      
+       typeProd.getstore(lsKeyName);
+       typeProd.addValue(drinck, {alcoholic:alc, recept:rec});
+       typeProd.setStore(lsKeyName);
        alert('Данные внесены успешно!');
  }   
  
 
  function getDrinckInfo() {
-   let elem = null;
-   let typeProd = false;
+   this.classList.contains('btn2') ? flag = true: flag = false  
+   const elem = start(flag);
+   const {name, name2, lsKeyName, typeProd} = elem;
    let getInfoDrinck = null;
-   let lsKeyName = '';
-   if (this.classList.contains('btn2')) {
-      elem = objDrink;
-      typeProd = true;
-      lsKeyName = "lsDrink";
-   }  else {
-      elem = objDish; 
-      lsKeyName = "lsDish";
-   }
-
-    let getInfo = prompt(`Введите ${elem.name} рецепт которого хотите узнать`,''); 
+  
+    let getInfo = prompt(`Введите ${name} рецепт которого хотите узнать`,''); 
     if (!getInfo) {
       getInfo = prompt(`
        Вы не ввели данные!!!
-       Введите ${elem.name} рецепт которого хотите узнать`,''); 
+       Введите ${name} рецепт которого хотите узнать`,''); 
     }
-    
-    if (typeProd) {
-      getInfoDrinck = drinkStorage.getValue(lsKeyName, getInfo);
-    } else {
-      getInfoDrinck = dishStorage.getValue(lsKeyName, getInfo);
-    }
- 
+   
+      getInfoDrinck = typeProd.getValue(lsKeyName, getInfo);
+      
    if (getInfoDrinck) {
       const {alcoholic, recept} = getInfoDrinck;
       alert(`
-             ${elem.name}: ${getInfo}
+             ${name}: ${getInfo}
              алкогольный: ${alcoholic ? 'да':'нет'}
              рецепт приготовления: ${recept}`
            );
    } else {
-      alert(`Информации о таком ${elem.name2}  нет(((`);
+      alert(`Информации о таком ${name2}  нет(((`);
    }
  }
 
 
    function removeInfoDrinck() {
-      let elem = null;
-      let typeProd = false;
-      let key = '';
-      let res = false;
-       if (this.classList.contains('btn3')) {
-          elem = objDrink;
-          typeProd = true;
-       }  else {
-          elem = objDish; 
-       }
- 
+    this.classList.contains('btn3') ? flag = true: flag = false   
+    const elem = start(flag);
+    const {name, prod2,prod3, lsKeyName, typeProd} = elem;
     let removeInfoDrinck = prompt(`Введите ${elem.prod} хотите удалить`,'');
       if (!removeInfoDrinck) {
          prompt(`
          Вы не ввели данные!!!
-         Введите ${elem.name} который хотите удалить`,''); 
+         Введите ${name} который хотите удалить`,''); 
       }
-      
-      if (typeProd) {
-        key = "lsDrink"; 
-        res = drinkStorage.deleteValue(key, removeInfoDrinck);
-      } else {
-        key = "lsDish";
-        res = dishStorage.deleteValue(key, removeInfoDrinck);
-      }
-   
+            
+      res = typeProd.deleteValue(lsKeyName, removeInfoDrinck);
+       
       if (res) {
-         alert( `${elem.prod2} успешно`); 
+         alert( `${prod2} успешно`); 
       } else {
-         alert(`Такого ${elem.prod3}  в базе данных нет`)
+         alert(`Такого ${prod3}  в базе данных нет`)
       }
    }
  
  function getDrinckInfoAll() {
-  let elem = null;
-  let typeProd = false;
-  let key = '';
-  let drinckAll = [];
-   if (this.classList.contains('btn4')) {
-      elem = objDrink;
-      typeProd = true;
-      key = "lsDrink" 
-   }  else {
-      elem = objDish;
-      key = "lsDish" 
-   }
-    if (typeProd) {
-      drinckAll = drinkStorage.getKeys(key);
-    } else {
-      drinckAll = dishStorage.getKeys(key);
-    }
-      
+   this.classList.contains('btn4') ? flag = true: flag = false   
+   const elem = start(flag);
+   const {prod4,lsKeyName, typeProd} = elem;
+   drinckAll = typeProd.getKeys(lsKeyName);
+       
     if (drinckAll.length !== 0) {
       drinckAll = drinckAll.join(',');
       alert(drinckAll)
     } else {
       alert(`
-      В базе данных ${elem.prod4} нет!
+      В базе данных ${prod4} нет!
      Вы не внесли ничего`); 
     }
-    
- }
- 
+  }
+}())

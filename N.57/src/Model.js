@@ -1,8 +1,8 @@
 
 'use strict';
 
-export const clockWidth = 500;
-export const clockHeight = 500;
+export const clockWidth = 300;
+export const clockHeight = 300;
 export const clockX = clockWidth / 2;
 export const clockY = clockHeight / 2;
 export const radiusClock = (clockWidth / 2) - 1;

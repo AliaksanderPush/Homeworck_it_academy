@@ -1,8 +1,8 @@
 
 (function() {
 
-const drinkStorage = new LocalStorageClass();
-const dishStorage = new LocalStorageClass();
+const drinkStorage = new LocalStorageClass("lsDrink");
+const dishStorage = new LocalStorageClass("lsDish");
  
  document.querySelector('.btn1').addEventListener('click', drinckInfo);
  document.querySelector('.btn5').addEventListener('click', drinckInfo);
@@ -29,7 +29,7 @@ const dishStorage = new LocalStorageClass();
    prod2: 'Напиток удален',
    prod3: 'напитка',
    prod4 :'напитков',
-   lsKeyName: "lsDrink",
+  // lsKeyName: ,
    typeProd: drinkStorage
    } 
     )
@@ -43,7 +43,7 @@ const dishStorage = new LocalStorageClass();
       prod2: 'Блюдо удалено',
       prod3: 'блюда',
       prod4: 'блюд', 
-      lsKeyName: "lsDish",
+  //    lsKeyName: ,
       typeProd: dishStorage
    } 
     )
@@ -54,7 +54,7 @@ const dishStorage = new LocalStorageClass();
  function drinckInfo() {
 this.classList.contains('btn1') ? flag = true: flag = false
 const elem = start(flag);
-const {prod, type, lsKeyName, typeProd} = elem;
+const {prod, type, typeProd} = elem;
 
  let  drinck = prompt(`Введите ${prod} Вы предпочитаете`,'');
     while (!drinck) {
@@ -70,9 +70,9 @@ const {prod, type, lsKeyName, typeProd} = elem;
          Напишите рецепт его приготовления`,'');
       }
       
-       typeProd.getstore(lsKeyName);
+       typeProd.getstore();
        typeProd.addValue(drinck, {alcoholic:alc, recept:rec});
-       typeProd.setStore(lsKeyName);
+       typeProd.setStore();
        alert('Данные внесены успешно!');
  }   
  
@@ -80,7 +80,7 @@ const {prod, type, lsKeyName, typeProd} = elem;
  function getDrinckInfo() {
    this.classList.contains('btn2') ? flag = true: flag = false  
    const elem = start(flag);
-   const {name, name2, lsKeyName, typeProd} = elem;
+   const {name, name2, typeProd} = elem;
    let getInfoDrinck = null;
   
     let getInfo = prompt(`Введите ${name} рецепт которого хотите узнать`,''); 
@@ -90,7 +90,7 @@ const {prod, type, lsKeyName, typeProd} = elem;
        Введите ${name} рецепт которого хотите узнать`,''); 
     }
    
-      getInfoDrinck = typeProd.getValue(lsKeyName, getInfo);
+      getInfoDrinck = typeProd.getValue(getInfo);
       
    if (getInfoDrinck) {
       const {alcoholic, recept} = getInfoDrinck;
@@ -108,7 +108,7 @@ const {prod, type, lsKeyName, typeProd} = elem;
    function removeInfoDrinck() {
     this.classList.contains('btn3') ? flag = true: flag = false   
     const elem = start(flag);
-    const {name, prod2,prod3, lsKeyName, typeProd} = elem;
+    const {name, prod2,prod3,typeProd} = elem;
     let removeInfoDrinck = prompt(`Введите ${elem.prod} хотите удалить`,'');
       if (!removeInfoDrinck) {
          prompt(`
@@ -116,7 +116,7 @@ const {prod, type, lsKeyName, typeProd} = elem;
          Введите ${name} который хотите удалить`,''); 
       }
             
-      res = typeProd.deleteValue(lsKeyName, removeInfoDrinck);
+      res = typeProd.deleteValue(removeInfoDrinck);
        
       if (res) {
          alert( `${prod2} успешно`); 
@@ -128,8 +128,8 @@ const {prod, type, lsKeyName, typeProd} = elem;
  function getDrinckInfoAll() {
    this.classList.contains('btn4') ? flag = true: flag = false   
    const elem = start(flag);
-   const {prod4,lsKeyName, typeProd} = elem;
-   drinckAll = typeProd.getKeys(lsKeyName);
+   const {prod4, typeProd} = elem;
+   drinckAll = typeProd.getKeys();
        
     if (drinckAll.length !== 0) {
       drinckAll = drinckAll.join(',');
